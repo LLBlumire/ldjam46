@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "TileMap",
+"class": "WorldEdit",
+"language": "GDScript",
+"path": "res://src/WorldMap/WorldEdit.gd"
+} ]
 _global_script_class_icons={
-
+"WorldEdit": ""
 }
 
 [application]

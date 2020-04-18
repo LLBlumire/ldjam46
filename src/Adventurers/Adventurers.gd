@@ -13,7 +13,7 @@ var Satisfaction : float = 0.0
 var Strenght : float = 0.0
 var Dexterity : float = 0.0
 var Intelligence : float = 0.0
-var Pos : Vector2 = Vector2(0,0)
+var Pos : Vector2 = Vector2(-3,2)
 var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,4 +37,4 @@ func update_stats():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	position = Worldnode.world_tile_map.map_to_world(Pos)
+	position = Worldnode.world_map.map_to_world(Pos) + Vector2(16,16)

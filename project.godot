@@ -14,14 +14,14 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Adventurers/Adventurers.gd"
 }, {
-"base": "TileMap",
-"class": "WorldEdit",
+"base": "Node2D",
+"class": "WorldMap",
 "language": "GDScript",
-"path": "res://src/WorldMap/WorldEdit.gd"
+"path": "res://src/WorldMap/WorldMap.gd"
 } ]
 _global_script_class_icons={
 "Adventurer": "",
-"WorldEdit": ""
+"WorldMap": ""
 }
 
 [application]

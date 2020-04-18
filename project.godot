@@ -13,8 +13,15 @@ _global_script_classes=[ {
 "class": "WorldEdit",
 "language": "GDScript",
 "path": "res://src/WorldMap/WorldEdit.gd"
+} , 
+{
+"base": "Node2D",
+"class": "Adventurers",
+"language": "GDScript",
+"path": "res://src/Adventurers/Stats.gd"
 } ]
 _global_script_class_icons={
+"Adventurers": "",
 "WorldEdit": ""
 }
 

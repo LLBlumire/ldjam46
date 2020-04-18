@@ -4,7 +4,7 @@
 [ext_resource path="res://res/worldsprites.png" type="Texture" id=3]
 [ext_resource path="res://src/WorldMap/WorldEdit.gd" type="Script" id=4]
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=1]
 resource_name = "worldsprites"
 0/name = "worldsprites.png 0"
 0/texture = ExtResource( 3 )
@@ -48,7 +48,7 @@ resource_name = "select"
 [node name="WorldMap" type="Node2D"]
 
 [node name="WorldTileMap" type="TileMap" parent="."]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 format = 1

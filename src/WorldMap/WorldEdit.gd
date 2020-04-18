@@ -12,7 +12,6 @@ func _ready():
 func _process(delta):
 	clear_cursor()
 	cursor = world_to_map(get_global_mouse_position())
-	print(cursor)
 	place_cursor()
 	
 func place_cursor():

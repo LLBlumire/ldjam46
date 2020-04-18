@@ -10,9 +10,9 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
-"class": "Adventurers",
+"class": "Adventurer",
 "language": "GDScript",
-"path": "res://src/Adventurers/Stats.gd"
+"path": "res://src/Adventurers/Adventurers.gd"
 }, {
 "base": "TileMap",
 "class": "WorldEdit",
@@ -20,7 +20,7 @@ _global_script_classes=[ {
 "path": "res://src/WorldMap/WorldEdit.gd"
 } ]
 _global_script_class_icons={
-"Adventurers": "",
+"Adventurer": "",
 "WorldEdit": ""
 }
 

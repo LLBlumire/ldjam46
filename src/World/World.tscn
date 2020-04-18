@@ -11,4 +11,4 @@ offset = Vector2( 16, 16 )
 current = true
 zoom = Vector2( 0.167, 0.167 )
 
-[node name="World" parent="." instance=ExtResource( 3 )]
+[node name="WorldMap" parent="." instance=ExtResource( 3 )]

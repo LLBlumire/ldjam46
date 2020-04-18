@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/World/World.gd" type="Script" id=1]
 [ext_resource path="res://src/Adventurers/Adventurers.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/WorldMap/WorldMap.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/World/BuildingMenu.gd" type="Script" id=4]
+[ext_resource path="res://src/World/icon.gd" type="Script" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 1 )
@@ -18,11 +19,8 @@ offset = Vector2( 16, 16 )
 current = true
 zoom = Vector2( 0.167, 0.167 )
 
-[node name="BuildingMenu" type="PopupMenu" parent="Camera2D"]
-margin_right = 32.0
-margin_bottom = 32.0
+[node name="icon" type="Sprite" parent="."]
+position = Vector2( 127.968, 46.1176 )
+texture = ExtResource( 5 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-[connection signal="tile_clicked" from="WorldMap" to="Camera2D/BuildingMenu" method="_on_WorldMap_tile_clicked"]
+[connection signal="tile_clicked" from="WorldMap" to="icon" method="_on_WorldMap_tile_clicked"]

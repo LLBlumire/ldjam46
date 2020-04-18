@@ -8,6 +8,5 @@ func _ready():
 	world_tile_map = get_tree().get_root().get_node("World/WorldMap/WorldTileMap")
 	print("HEllo, World")
 	print(world_tile_map.map_to_world(Vector2(3, -1)))
-
 func _process(delta):
 	pass

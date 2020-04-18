@@ -16,11 +16,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 
-
+func _input(event):
+	if (event.is_pressed() and event.button_index == BUTTON_RIGHT):
+		kill_self()
 
 
 func kill_self():
 	get_parent().remove_child(self)
+	world_map.building_flag = false
 
 func _on_Village_pressed():
 	world_map.place_tile(click_cursor,0)

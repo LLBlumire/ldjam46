@@ -12,6 +12,7 @@ var world_tile_map : TileMap
 var world_select : TileMap
 var neighbour_mask : TileMap
 var building_scene
+var building_flag : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,14 +33,15 @@ func _process(delta):
 		if world_tile_map.get_cellv(mouse_cursor) == -1:
 			place_cursor()
 			if Input.is_action_just_pressed("ui_select"):
-				print(click_cursor)
-				click_cursor = mouse_cursor
-				emit_signal("tile_clicked", click_cursor)
-				var building_menu = building_scene.instance()
-				building_menu.position = world_tile_map.map_to_world(click_cursor)
-				building_menu.click_cursor = click_cursor
-				add_child(building_menu)
-	
+				if building_flag == false:
+					print(click_cursor)
+					click_cursor = mouse_cursor
+					emit_signal("tile_clicked", click_cursor)
+					building_flag = true
+					var building_menu = building_scene.instance()
+					building_menu.position = world_tile_map.map_to_world(click_cursor)
+					building_menu.click_cursor = click_cursor
+					add_child(building_menu)
 func place_cursor():
 	world_select.set_cellv(mouse_cursor, 0)
 	

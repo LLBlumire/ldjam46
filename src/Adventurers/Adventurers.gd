@@ -12,6 +12,7 @@ var satisfaction_timer : Timer
 var exploration_timer : Timer
 var skeleton : Sprite
 var costume : Sprite
+var hair : Sprite
 enum {Thief, Wizard, Fighter, Halfling, Elf, Gnome}
 var race : int = 0
 var Health : float = 0.0 
@@ -22,6 +23,7 @@ var Strenght : float = 0.0
 var Dexterity : float = 0.0
 var Intelligence : float = 0.0
 var Sex : int = 0
+var Hair : int = 0
 var Mediocre : bool = false
 var Pos : Vector2 = Vector2(0,0)
 var rng = RandomNumberGenerator.new()
@@ -33,6 +35,7 @@ func _ready():
 	exploration_timer = get_node("ExplorationTimer")
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
+	hair = get_node("AdventurerHair")
 	Worldnode = get_tree().get_root().get_node("World")
 	world_map = get_tree().get_root().get_node("World/WorldMap")
 	
@@ -45,6 +48,7 @@ func _ready():
 	Strenght = gen_stat()
 	Dexterity = gen_stat()
 	Intelligence = gen_stat()
+	Hair = rng.randi_range(0,7)
 	set_race()
 	set_sprite()
 	update_stats()
@@ -65,15 +69,17 @@ func update_pos():
 func set_sprite():
 	var skel = 0
 	var cost = 0
+	var issmall = race >= 4
 	skel = max(0, race - 2)
 	cost = 2 * race
 	skeleton.texture.region = Rect2(skel * 24,0,24,32)
 	costume.texture.region = Rect2((cost + Sex) * 24, 0,24,32)
+	hair.texture.region = Rect2((Hair*4+Sex*2+int(issmall))*24, 0, 24, 32)
 
 func set_race():
-	var fighter = Strenght >= 11
-	var wizard = Intelligence >= 11
-	var rogue = Dexterity >= 11
+	var fighter = Strenght >= 13
+	var wizard = Intelligence >= 13
+	var rogue = Dexterity >= 13
 	var elf = fighter && wizard
 	var halfling = fighter && rogue
 	var gnome = wizard && rogue

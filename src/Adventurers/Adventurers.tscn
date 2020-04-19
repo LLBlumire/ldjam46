@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://res/Adventurers/adventurer_template_strip4.png" type="Texture" id=1]
 [ext_resource path="res://src/Adventurers/Adventurers.gd" type="Script" id=2]
 [ext_resource path="res://res/Adventurers/costumes_strip12.png" type="Texture" id=3]
+[ext_resource path="res://res/Adventurers/hairstyles_strip32.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 resource_local_to_scene = true
@@ -14,6 +15,11 @@ resource_local_to_scene = true
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 24, 32 )
 
+[sub_resource type="AtlasTexture" id=3]
+resource_local_to_scene = true
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 24, 32 )
+
 [node name="Adventurers" type="Node2D"]
 position = Vector2( 20, 20 )
 script = ExtResource( 2 )
@@ -23,6 +29,9 @@ texture = SubResource( 1 )
 
 [node name="AdventurerCostume" type="Sprite" parent="."]
 texture = SubResource( 2 )
+
+[node name="AdventurerHair" type="Sprite" parent="."]
+texture = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = -19.0

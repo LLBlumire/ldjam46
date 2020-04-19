@@ -14,6 +14,8 @@ var neighbour_mask : TileMap
 var world_node : Node2D
 var building_scene
 var building_flag : bool = false
+var lower_bounds : Vector2 = Vector2(0, 0)
+var upper_bounds : Vector2 = Vector2(0, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,9 +56,17 @@ func place_tile(location: Vector2, tile: int):
 	world_tile_map.set_cell(location.x, location.y, 0, false, false, false, Vector2(tile, 0))
 	if tile == 0:
 		world_node.spawn_adventurer(location)
-	
 	neighbour_mask.set_cellv(location, 0)
 	neighbour_mask.set_cellv(location + Vector2(0, 1), 0)
 	neighbour_mask.set_cellv(location + Vector2(0, -1), 0)
 	neighbour_mask.set_cellv(location + Vector2(1, 0), 0)
 	neighbour_mask.set_cellv(location + Vector2(-1, 0), 0)
+	var world_loc = map_to_world(location)
+	if world_loc.x < lower_bounds.x:
+		lower_bounds.x = world_loc.x
+	if world_loc.y < lower_bounds.y:
+		lower_bounds.y = world_loc.y
+	if world_loc.x > upper_bounds.x:
+		upper_bounds.x = world_loc.x
+	if world_loc.y > upper_bounds.y:
+		lower_bounds.y = world_loc.y

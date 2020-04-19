@@ -45,6 +45,7 @@ func _ready():
 	Strenght = gen_stat()
 	Dexterity = gen_stat()
 	Intelligence = gen_stat()
+	set_race()
 	set_sprite()
 	update_stats()
 	update_pos()
@@ -93,6 +94,7 @@ func set_race():
 		race = Thief
 	else:
 		race = rng.randi_range(Thief,Gnome)
+		Mediocre = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -8,6 +8,8 @@ var Healthbar : Label
 var satisfaction_bar : Label
 var Worldnode : Node2D
 var world_map : Node2D
+var satisfaction_timer : Timer
+var exploration_timer : Timer
 
 var Health : float = 0.0 
 var CurrentHealth : float = 0.0
@@ -30,6 +32,8 @@ func _ready():
 	Intelligence = gen_stat()
 	Healthbar =get_node("VBoxContainer/HealthBar")
 	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
+	satisfaction_timer = get_node("SatisfactionDecay")
+	exploration_timer = get_node("ExplorationTimer")
 	Worldnode = get_tree().get_root().get_node("World")
 	world_map = get_tree().get_root().get_node("World/WorldMap")
 	update_stats()
@@ -46,6 +50,18 @@ func update_pos():
 	position = Worldnode.world_map.map_to_world(Pos) + Vector2(16,16)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
+
+func have_adventure(var terrain : int):
+	visible = false
+	exploration_timer.stop()
+	satisfaction_timer.stop()
+	yield(get_tree().create_timer(5.0), "timeout")
+	visible = true
+	CurrentHealth -= 10
+	current_satisfaction = Satisfaction
+	exploration_timer.start()
+	satisfaction_timer.start()
+	update_stats()
 
 
 
@@ -68,3 +84,5 @@ func _on_ExplorationTimer_timeout():
 	if world_map.world_tile_map.get_cellv(Pos) == -1:
 		current_satisfaction -= 10
 		update_stats()
+	else :
+		have_adventure(world_map.world_tile_map.get_cellv(Pos))

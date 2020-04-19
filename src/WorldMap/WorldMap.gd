@@ -11,7 +11,7 @@ var building_popup : PopupMenu
 var world_tile_map : TileMap
 var world_select : TileMap
 var neighbour_mask : TileMap
-var worldNode : Node2D
+var world_node : Node2D
 var building_scene
 var building_flag : bool = false
 
@@ -21,7 +21,7 @@ func _ready():
 	world_tile_map = get_node("WorldTileMap")
 	world_select = get_node("WorldSelect")
 	neighbour_mask = get_node("NeighbourMask")
-	worldNode = get_tree().get_root().get_node("World")
+	world_node = get_tree().get_root().get_node("World")
 	place_tile(Vector2(0, 0), 0)
 	building_scene = load("res://src/UI/BuildingMenu.tscn")
 	
@@ -52,8 +52,8 @@ func clear_cursor():
 
 func place_tile(location: Vector2, tile: int):
 	world_tile_map.set_cell(location.x, location.y, 0, false, false, false, Vector2(tile, 0))
-#	if tile == 0:
-#		worldNode.spawn_adventurer(location) This doesn't work currently dunno why
+	if tile == 0:
+		world_node.spawn_adventurer(location)
 	
 	neighbour_mask.set_cellv(location, 0)
 	neighbour_mask.set_cellv(location + Vector2(0, 1), 0)

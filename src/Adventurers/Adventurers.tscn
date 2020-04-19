@@ -56,5 +56,4 @@ autostart = true
 wait_time = 3.0
 autostart = true
 [connection signal="timeout" from="SatisfactionDecay" to="." method="_on_SatisfactionDecay_timeout"]
-[connection signal="timeout" from="SatisfactionDecay" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="ExplorationTimer" to="." method="_on_ExplorationTimer_timeout"]

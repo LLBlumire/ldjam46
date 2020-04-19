@@ -10,11 +10,14 @@ var Worldnode : Node2D
 var world_map : Node2D
 var satisfaction_timer : Timer
 var exploration_timer : Timer
+
 var skeleton : Sprite
 var costume : Sprite
 var hair : Sprite
 enum {Thief, Wizard, Fighter, Halfling, Elf, Gnome}
 var race : int = 0
+
+var AdventurerName : String = ""
 var Health : float = 0.0 
 var CurrentHealth : float = 0.0
 var Satisfaction : float = 0.0
@@ -50,6 +53,7 @@ func _ready():
 	Intelligence = gen_stat()
 	Hair = rng.randi_range(0,7)
 	set_race()
+	set_adventurer_name()
 	set_sprite()
 	update_stats()
 	update_pos()
@@ -58,13 +62,26 @@ func _ready():
 
 func gen_stat() -> float:
 	return rng.randi_range(1, 6) + rng.randi_range(1, 6) + rng.randi_range(1, 6) as float
-	
+
 func update_stats():
 	Healthbar.set_text("HP:{current}/{max}".format({"current": CurrentHealth, "max": Health}))
 	satisfaction_bar.set_text("SP:{current}/{max}".format({"current": current_satisfaction, "max": Satisfaction}))
-	
+	if CurrentHealth < 0 :
+		death()
+	if current_satisfaction < 0:
+		boredom()
+
 func update_pos():
 	position = Worldnode.world_map.map_to_world(Pos) + Vector2(16,16)
+	
+
+func death():
+	get_parent().remove_child(self)
+	print("F")
+
+func boredom():
+	get_parent().remove_child(self)
+	print("BOOOOOORING")
 
 func set_sprite():
 	var skel = 0
@@ -98,6 +115,57 @@ func set_race():
 	else:
 		race = rng.randi_range(Thief,Gnome)
 		Mediocre = true
+
+func set_adventurer_name():
+	var file : File = File.new()
+	var rs = rng.randi_range(0,99)
+	var first_name : String
+	var last_name : String
+	if race <= Fighter: #Human
+		var rf = rng.randi_range(0,79)
+		
+		if Sex == 0:
+			file.open("res://res/Adventurers/Names/HumanM.txt",File.READ)
+		elif Sex == 1:
+			file.open("res://res/Adventurers/Names/HumanF.txt",File.READ)
+		for i in range(rf):
+			first_name = file.get_line()
+		
+	elif race == Elf :
+		var rf = rng.randi_range(0,49)
+		
+		if Sex == 0:
+			file.open("res://res/Adventurers/Names/ElfM.txt",File.READ)
+		elif Sex == 1:
+			file.open("res://res/Adventurers/Names/ElfF.txt",File.READ)
+		for i in range(rf):
+			first_name = file.get_line()
+	
+	elif race == Gnome :
+		var rf = rng.randi_range(0,49)
+		
+		if Sex == 0:
+			file.open("res://res/Adventurers/Names/GnomeM.txt",File.READ)
+		elif Sex == 1:
+			file.open("res://res/Adventurers/Names/GnomeF.txt",File.READ)
+		for i in range(rf):
+			first_name = file.get_line()
+	
+	elif race == Halfling :
+		var rf = rng.randi_range(0,49)
+		
+		if Sex == 0:
+			file.open("res://res/Adventurers/Names/HalflingM.txt",File.READ)
+		elif Sex == 1:
+			file.open("res://res/Adventurers/Names/HalflingF.txt",File.READ)
+		for i in range(rf):
+			first_name = file.get_line()
+	file.close()
+	file.open("res://res/Adventurers/Names/Lastnames.txt",File.READ)
+	for i in range(rs):
+		last_name = file.get_line()
+	
+	AdventurerName = first_name + " " + last_name
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

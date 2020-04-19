@@ -10,7 +10,10 @@ var Worldnode : Node2D
 var world_map : Node2D
 var satisfaction_timer : Timer
 var exploration_timer : Timer
-
+var skeleton : Sprite
+var costume : Sprite
+enum {Thief, Wizard, Fighter, Halfling, Elf, Gnome}
+var race : int = 0
 var Health : float = 0.0 
 var CurrentHealth : float = 0.0
 var Satisfaction : float = 0.0
@@ -18,26 +21,35 @@ var current_satisfaction : float = 0.0
 var Strenght : float = 0.0
 var Dexterity : float = 0.0
 var Intelligence : float = 0.0
+var Sex : int = 0
+var Mediocre : bool = false
 var Pos : Vector2 = Vector2(0,0)
 var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Healthbar =get_node("VBoxContainer/HealthBar")
+	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
+	satisfaction_timer = get_node("SatisfactionDecay")
+	exploration_timer = get_node("ExplorationTimer")
+	skeleton = get_node("AdventurerSkeleton")
+	costume = get_node("AdventurerCostume")
+	Worldnode = get_tree().get_root().get_node("World")
+	world_map = get_tree().get_root().get_node("World/WorldMap")
+	
 	rng.randomize()
 	Health = 20 + gen_stat()
 	CurrentHealth = Health
 	Satisfaction = 20 + gen_stat()
 	current_satisfaction = Satisfaction
+	Sex = rng.randi_range(0,1) # 0 = male, 1 = female
 	Strenght = gen_stat()
 	Dexterity = gen_stat()
 	Intelligence = gen_stat()
-	Healthbar =get_node("VBoxContainer/HealthBar")
-	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
-	satisfaction_timer = get_node("SatisfactionDecay")
-	exploration_timer = get_node("ExplorationTimer")
-	Worldnode = get_tree().get_root().get_node("World")
-	world_map = get_tree().get_root().get_node("World/WorldMap")
+	set_sprite()
 	update_stats()
 	update_pos()
+
+
 
 func gen_stat() -> float:
 	return rng.randi_range(1, 6) + rng.randi_range(1, 6) + rng.randi_range(1, 6) as float
@@ -48,6 +60,40 @@ func update_stats():
 	
 func update_pos():
 	position = Worldnode.world_map.map_to_world(Pos) + Vector2(16,16)
+
+func set_sprite():
+	var skel = 0
+	var cost = 0
+	if race <= Fighter: #is human
+		skel = 0
+	else:
+		skel = race - 3
+	cost = 2 * race
+	skeleton.texture.region = Rect2(skel * 24,0,24,32)
+	costume.texture.region = Rect2((cost + Sex) * 24, 0,24,32)
+
+func set_race():
+	var fighter = Strenght >= 13
+	var wizard = Intelligence >= 13
+	var rogue = Dexterity >= 13
+	var elf = fighter && wizard
+	var halfling = fighter && rogue
+	var gnome = wizard && rogue
+	if elf:
+		race = Elf
+	elif halfling:
+		race = Halfling
+	elif gnome:
+		race = Gnome
+	elif fighter:
+		race = Fighter
+	elif wizard:
+		race = Wizard
+	elif rogue:
+		race = Thief
+	else:
+		race = rng.randi_range(Thief,Gnome)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 

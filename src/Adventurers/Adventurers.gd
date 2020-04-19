@@ -65,18 +65,15 @@ func update_pos():
 func set_sprite():
 	var skel = 0
 	var cost = 0
-	if race <= Fighter: #is human
-		skel = 0
-	else:
-		skel = race - 3
+	skel = max(0, race - 2)
 	cost = 2 * race
 	skeleton.texture.region = Rect2(skel * 24,0,24,32)
 	costume.texture.region = Rect2((cost + Sex) * 24, 0,24,32)
 
 func set_race():
-	var fighter = Strenght >= 13
-	var wizard = Intelligence >= 13
-	var rogue = Dexterity >= 13
+	var fighter = Strenght >= 11
+	var wizard = Intelligence >= 11
+	var rogue = Dexterity >= 11
 	var elf = fighter && wizard
 	var halfling = fighter && rogue
 	var gnome = wizard && rogue

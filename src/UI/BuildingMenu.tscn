@@ -19,29 +19,30 @@ region = Rect2( 96, 0, 32, 32 )
 script = ExtResource( 2 )
 
 [node name="Village" type="TextureButton" parent="."]
-margin_left = 96.0
-margin_right = 128.0
-margin_bottom = 32.0
+margin_left = -16.0
+margin_top = -48.0
+margin_right = 16.0
+margin_bottom = -16.0
 texture_normal = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Grassland" type="TextureButton" parent="."]
-margin_left = 96.0
-margin_top = -64.0
-margin_right = 128.0
-margin_bottom = -32.0
+margin_left = 16.0
+margin_top = -16.0
+margin_right = 48.0
+margin_bottom = 16.0
 texture_normal = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Forest" type="TextureButton" parent="."]
-margin_left = 96.0
-margin_top = 64.0
-margin_right = 128.0
-margin_bottom = 96.0
+margin_left = -48.0
+margin_top = -16.0
+margin_right = -16.0
+margin_bottom = 16.0
 texture_normal = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false

@@ -6,8 +6,8 @@ class_name Adventurer
 # var b = "text"
 var Healthbar : Label
 var satisfaction_bar : Label
-var Worldnode : Node2D
-var world_map : Node2D
+var world_node : GameWorld
+var world_map : WorldMap
 var satisfaction_timer : Timer
 var exploration_timer : Timer
 
@@ -30,6 +30,7 @@ var Hair : int = 0
 var Mediocre : bool = false
 var Pos : Vector2 = Vector2(0,0)
 var rng = RandomNumberGenerator.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Healthbar =get_node("VBoxContainer/HealthBar")
@@ -39,8 +40,8 @@ func _ready():
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
 	hair = get_node("AdventurerHair")
-	Worldnode = get_tree().get_root().get_node("World")
-	world_map = get_tree().get_root().get_node("World/WorldMap")
+	world_node = get_node("..")
+	world_map = world_node.world_map
 	
 	rng.randomize()
 	Health = 20 + gen_stat()
@@ -72,7 +73,7 @@ func update_stats():
 		boredom()
 
 func update_pos():
-	position = Worldnode.world_map.map_to_world(Pos) + Vector2(16,16)
+	position = world_node.world_map.map_to_world(Pos) + Vector2(16,16)
 	
 
 func death():

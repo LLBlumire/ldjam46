@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="ldjam46"
-run/main_scene="res://src/World/World.tscn"
+run/main_scene="res://src/OverviewUI/OverviewUI.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -43,7 +43,7 @@ window/size/height=1080
 window/size/test_width=1536
 window/size/test_height=864
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 
 [input]
 

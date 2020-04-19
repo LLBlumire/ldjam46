@@ -6,8 +6,7 @@ var world : GameWorld
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	world = get_tree().get_root().get_node("World")
-	
+	world = get_node("../World")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

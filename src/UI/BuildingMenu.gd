@@ -10,7 +10,7 @@ var click_cursor : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	world_map = get_tree().get_root().get_node("World/WorldMap")
+	world_map = get_node("..")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

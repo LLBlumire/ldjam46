@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://src/World/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/World/Camera2D.gd" type="Script" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://res/sounds/place.wav" type="AudioStream" id=12]
 [ext_resource path="res://res/sounds/bg_default.ogg" type="AudioStream" id=13]
 [ext_resource path="res://res/button_groups/build_options.tres" type="ButtonGroup" id=14]
+[ext_resource path="res://src/OverviewUI/BeginGame.gd" type="Script" id=15]
+[ext_resource path="res://src/OverviewUI/RestartGame.gd" type="Script" id=16]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 9 )
@@ -59,10 +61,6 @@ region = Rect2( 288, 0, 32, 32 )
 atlas = ExtResource( 9 )
 region = Rect2( 320, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 9 )
-region = Rect2( 352, 0, 32, 32 )
-
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 9 )
 region = Rect2( 64, 0, 32, 32 )
@@ -90,6 +88,10 @@ font_data = ExtResource( 7 )
 [sub_resource type="DynamicFont" id=12]
 size = 24
 use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 30
 font_data = ExtResource( 3 )
 
 [node name="OverviewUI" type="Node2D"]
@@ -152,7 +154,6 @@ size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 
 [node name="UI" type="VBoxContainer" parent="SplitScreen/ColorRect"]
-margin_left = 10.0
 margin_right = 736.0
 margin_bottom = 1076.0
 size_flags_horizontal = 3
@@ -161,8 +162,8 @@ __meta__ = {
 }
 
 [node name="BuildMenu" type="GridContainer" parent="SplitScreen/ColorRect/UI"]
-margin_right = 726.0
-margin_bottom = 536.0
+margin_right = 736.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
@@ -170,14 +171,14 @@ columns = 5
 script = ExtResource( 10 )
 
 [node name="MarginContainer" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TownButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 group = ExtResource( 14 )
@@ -186,15 +187,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 146.0
-margin_right = 288.0
-margin_bottom = 172.0
+margin_left = 148.0
+margin_right = 292.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GrasslandButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer2"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 2 )
@@ -202,15 +203,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer3" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 292.0
-margin_right = 434.0
-margin_bottom = 172.0
+margin_left = 296.0
+margin_right = 440.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FarmlandButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer3"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 3 )
@@ -218,15 +219,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer4" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 438.0
-margin_right = 580.0
-margin_bottom = 172.0
+margin_left = 444.0
+margin_right = 588.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ForestButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer4"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 4 )
@@ -234,15 +235,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer5" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 584.0
-margin_right = 726.0
-margin_bottom = 172.0
+margin_left = 592.0
+margin_right = 736.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="CaveButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer5"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 5 )
@@ -250,15 +251,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer6" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_top = 182.0
-margin_right = 142.0
-margin_bottom = 354.0
+margin_top = 174.0
+margin_right = 144.0
+margin_bottom = 338.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SwampButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer6"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 6 )
@@ -266,16 +267,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer7" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 146.0
-margin_top = 182.0
-margin_right = 288.0
-margin_bottom = 354.0
+margin_left = 148.0
+margin_top = 174.0
+margin_right = 292.0
+margin_bottom = 338.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MountainButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer7"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 13 )
@@ -283,16 +284,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer8" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 292.0
-margin_top = 182.0
-margin_right = 434.0
-margin_bottom = 354.0
+margin_left = 296.0
+margin_top = 174.0
+margin_right = 440.0
+margin_bottom = 338.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DesertButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer8"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 14 )
@@ -300,16 +301,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer9" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 438.0
-margin_top = 182.0
-margin_right = 580.0
-margin_bottom = 354.0
+margin_left = 444.0
+margin_top = 174.0
+margin_right = 588.0
+margin_bottom = 338.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="JungleButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer9"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 15 )
@@ -317,16 +318,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer10" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 584.0
-margin_top = 182.0
-margin_right = 726.0
-margin_bottom = 354.0
+margin_left = 592.0
+margin_top = 174.0
+margin_right = 736.0
+margin_bottom = 338.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="AlpineButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer10"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 16 )
@@ -334,15 +335,15 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer11" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_top = 364.0
-margin_right = 142.0
-margin_bottom = 536.0
+margin_top = 348.0
+margin_right = 144.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ArcticButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer11"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 17 )
@@ -350,33 +351,24 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer12" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 146.0
-margin_top = 364.0
-margin_right = 288.0
-margin_bottom = 536.0
+margin_left = 148.0
+margin_top = 348.0
+margin_right = 292.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="OceanButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer12"]
-margin_right = 142.0
-margin_bottom = 172.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture_normal = SubResource( 18 )
-expand = true
-stretch_mode = 5
 
 [node name="MarginContainer13" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 292.0
-margin_top = 364.0
-margin_right = 434.0
-margin_bottom = 536.0
+margin_left = 296.0
+margin_top = 348.0
+margin_right = 440.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FriendlyButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer13"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 7 )
@@ -384,16 +376,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer14" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 438.0
-margin_top = 364.0
-margin_right = 580.0
-margin_bottom = 536.0
+margin_left = 444.0
+margin_top = 348.0
+margin_right = 588.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DefaultButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer14"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 7 )
@@ -401,16 +393,16 @@ expand = true
 stretch_mode = 5
 
 [node name="MarginContainer15" type="MarginContainer" parent="SplitScreen/ColorRect/UI/BuildMenu"]
-margin_left = 584.0
-margin_top = 364.0
-margin_right = 726.0
-margin_bottom = 536.0
+margin_left = 592.0
+margin_top = 348.0
+margin_right = 736.0
+margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HostileButton" type="TextureButton" parent="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer15"]
-margin_right = 142.0
-margin_bottom = 172.0
+margin_right = 144.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = SubResource( 7 )
@@ -418,9 +410,9 @@ expand = true
 stretch_mode = 5
 
 [node name="ChatLogContainer" type="MarginContainer" parent="SplitScreen/ColorRect/UI"]
-margin_top = 540.0
-margin_right = 726.0
-margin_bottom = 1076.0
+margin_top = 516.0
+margin_right = 736.0
+margin_bottom = 1028.0
 size_flags_vertical = 3
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
@@ -430,8 +422,8 @@ custom_constants/margin_bottom = 10
 [node name="ChatLog" type="RichTextLabel" parent="SplitScreen/ColorRect/UI/ChatLogContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 716.0
-margin_bottom = 526.0
+margin_right = 726.0
+margin_bottom = 502.0
 custom_fonts/mono_font = SubResource( 8 )
 custom_fonts/bold_italics_font = SubResource( 9 )
 custom_fonts/italics_font = SubResource( 10 )
@@ -452,6 +444,31 @@ You are charged with keeping the foolish adventurers of the world from dying. Do
 Adventurers have Health and Satisfaction. If either of these run out, they'll retire and you'll lose. They also have a Level. This increases over time, make sure they have terrain close to their level to explore!"
 scroll_following = true
 script = ExtResource( 8 )
+
+[node name="MarginContainer" type="MarginContainer" parent="SplitScreen/ColorRect/UI"]
+margin_top = 1032.0
+margin_right = 736.0
+margin_bottom = 1075.0
+custom_constants/margin_right = 10
+custom_constants/margin_left = 10
+
+[node name="BeginGame" type="Button" parent="SplitScreen/ColorRect/UI/MarginContainer"]
+margin_left = 10.0
+margin_right = 726.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 18 )
+text = "Start Game"
+script = ExtResource( 15 )
+
+[node name="RestartGame" type="Button" parent="SplitScreen/ColorRect/UI/MarginContainer"]
+visible = false
+margin_left = 10.0
+margin_right = 726.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 18 )
+text = "Game Over: Restart Game?"
+script = ExtResource( 16 )
+[connection signal="game_over" from="SplitScreen/ViewportContainer/Viewport/World" to="SplitScreen/ColorRect/UI/MarginContainer/RestartGame" method="_on_World_game_over"]
 [connection signal="build_mode_set" from="SplitScreen/ColorRect/UI/BuildMenu" to="SplitScreen/ViewportContainer/Viewport/World" method="_on_BuildMenu_build_mode_set"]
 [connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer/TownButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_TownButton_pressed"]
 [connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer2/GrasslandButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_GrasslandButton_pressed"]
@@ -464,4 +481,6 @@ script = ExtResource( 8 )
 [connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer9/JungleButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_JungleButton_pressed"]
 [connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer10/AlpineButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_AlpineButton_pressed"]
 [connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer11/ArcticButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_ArcticButton_pressed"]
-[connection signal="pressed" from="SplitScreen/ColorRect/UI/BuildMenu/MarginContainer12/OceanButton" to="SplitScreen/ColorRect/UI/BuildMenu" method="_on_OceanButton_pressed"]
+[connection signal="pressed" from="SplitScreen/ColorRect/UI/MarginContainer/BeginGame" to="SplitScreen/ViewportContainer/Viewport/World" method="_on_BeginGame_pressed"]
+[connection signal="pressed" from="SplitScreen/ColorRect/UI/MarginContainer/BeginGame" to="SplitScreen/ColorRect/UI/MarginContainer/BeginGame" method="_on_BeginGame_pressed"]
+[connection signal="pressed" from="SplitScreen/ColorRect/UI/MarginContainer/RestartGame" to="SplitScreen/ColorRect/UI/MarginContainer/RestartGame" method="_on_RestartGame_pressed"]

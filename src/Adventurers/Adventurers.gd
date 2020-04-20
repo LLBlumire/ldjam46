@@ -1,6 +1,8 @@
 extends Node2D
 class_name Adventurer
 
+signal game_over
+
 var health_bar : TextureProgress
 var satisfaction_bar : TextureProgress
 var level_bar : TextureProgress
@@ -85,10 +87,10 @@ func move_to(var position : Vector2):
 	ready_to_adventure = true
 
 func death():
-	world_node.game_over(self, true)
+	world_node.game_over()
 
 func boredom():
-	world_node.game_over(self, false)
+	world_node.game_over()
 
 func set_sprite():
 	var skel = 0

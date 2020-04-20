@@ -31,9 +31,6 @@ func _on_GrasslandButton_pressed():
 func _on_FarmlandButton_pressed():
 	set_build_mode(TileData.FARMLAND)
 
-func _on_MuteButton_pressed():
-	audio_bg_default.stop()
-
 func _on_ForestButton_pressed():
 	set_build_mode(TileData.WOODS)
 
@@ -57,6 +54,4 @@ func _on_AlpineButton_pressed():
 
 func _on_ArcticButton_pressed():
 	set_build_mode(TileData.ARCTIC)
-
-func _on_OceanButton_pressed():
-	set_build_mode(TileData.OCEAN)
+	

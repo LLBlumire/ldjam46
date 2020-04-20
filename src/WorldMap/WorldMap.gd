@@ -19,6 +19,7 @@ var pos_ids : Dictionary = {}
 var towns : PoolIntArray = PoolIntArray([])
 var level : Dictionary = {}
 var full_exploration_set : Dictionary = {}
+var placement_enabled : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,6 +35,12 @@ func _ready():
 func map_to_world(vec : Vector2):
 	return world_select.map_to_world(vec)
 
+func enable_placement():
+	placement_enabled = true
+	
+func disable_placement():
+	placement_enabled = false
+
 func _process(delta):
 	clear_cursor()
 	# This is a hack for nested viewports, see https://github.com/godotengine/godot/issues/32222
@@ -45,7 +52,7 @@ func _process(delta):
 	if neighbour_mask.get_cellv(mouse_cursor) == 0:
 		if world_tile_map.get_cellv(mouse_cursor) == -1:
 			place_cursor()
-			if Input.is_action_just_pressed("ui_select"):
+			if Input.is_action_just_pressed("ui_select") && placement_enabled:
 				place_tile(mouse_cursor, build_mode)
 
 func place_cursor():

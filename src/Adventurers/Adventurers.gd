@@ -22,6 +22,7 @@ var level : int = 1
 var adventure_count : int = 0
 var next_level : int = 10
 var adventurer_name : String = ""
+var race_string : String = ""
 var current_health : float = 0.0
 var current_satisfaction : float = 0.0
 var strength : float = 0.0
@@ -62,6 +63,7 @@ func _ready():
 	set_adventurer_name()
 	set_sprite()
 	update_stats()
+	get_node(NodeMgr.chat_log).post_message("{name} the {class} has pledged themselves to the duty of adventure!".format({"name":adventurer_name,"class": race_string}))
 	var cpos = world_node.world_map.map_to_world(pos) + Vector2(16,10)
 	position = cpos
 	scale = Vector2(0.8, 0.8)
@@ -91,7 +93,7 @@ func death():
 	world_node.game_over()
 
 func boredom():
-	get_node(NodeMgr.chat_log).post_message("[color=red]{ name} got really bored in {place} and quit adventuring![/color]".format({"name":adventurer_name,"place":world_map.tile_data[pos]}))
+	get_node(NodeMgr.chat_log).post_message("[color=red]{name} got really bored in {place} and quit adventuring![/color]".format({"name":adventurer_name,"place":world_map.tile_data[pos]}))
 	world_node.game_over()
 
 func set_sprite():
@@ -113,18 +115,25 @@ func set_race():
 	var gnome = wizard && rogue
 	if elf:
 		race = Elf
+		race_string = "Elf"
 	elif halfling:
 		race = Halfling
+		race_string = "Halfling"
 	elif gnome:
 		race = Gnome
+		race_string = "Gnome"
 	elif fighter:
 		race = Fighter
+		race_string = "Fighter"
 	elif wizard:
 		race = Wizard
+		race_string = "Wizard"
 	elif rogue:
 		race = Thief
+		race_string = "Thief"
 	else:
 		race = rng.randi_range(Thief,Gnome)
+		race_string = "Mediocre"
 		mediocre = true
 
 func set_adventurer_name():
@@ -201,7 +210,6 @@ func have_adventure(var terrain : int):
 		current_health = clamp(current_health + 0.5, 0, 1)
 		action = "resting"
 	else:
-
 		current_health = clamp(current_health - (0.1*quot), 0, 1)
 	adventure_count += 1
 	if adventure_count >= next_level && level < 5:
@@ -214,6 +222,7 @@ func _on_TurnTimer_timeout():
 	if world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x == 0 && current_health < 1: #is on town
 		current_health = min(current_health + 0.5, 1)
 	elif current_health <= 0.3:
+		get_node(NodeMgr.chat_log).post_message("{name} is badly wounded and looking for shelter.".format({"name":adventurer_name}))
 		var here_id = world_map.pos_ids[pos]
 		var shortest_path = []
 		var shortest_path_size = 9223372036854775807

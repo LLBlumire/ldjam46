@@ -93,6 +93,7 @@ func place_tile(location: Vector2, tile: int, make_noise: bool = true):
 		astar.connect_points(this_astar_id, pos_ids[location + Vector2(0, 1)])
 	if pos_ids.has(location + Vector2(0, -1)):
 		astar.connect_points(this_astar_id, pos_ids[location + Vector2(0, -1)])
+	get_node(NodeMgr.chat_log).post_message("{place} is now explorable!".format({"place":tile_data[location]}))
 	if tile == 0:
 		world_node.spawn_adventurer(location)
 		towns.append(this_astar_id)

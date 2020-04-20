@@ -8,6 +8,7 @@ var click_cursor: Vector2
 var world_tile_map : TileMap
 var world_select : TileMap
 var neighbour_mask : TileMap
+var world_borders : TileMap
 var world_node : Node2D
 var lower_bounds : Vector2 = Vector2(0, 0)
 var upper_bounds : Vector2 = Vector2(0, 0)
@@ -27,6 +28,7 @@ func _ready():
 	world_tile_map = get_node("WorldTileMap")
 	world_select = get_node("WorldSelect")
 	neighbour_mask = get_node("NeighbourMask")
+	world_borders = get_node("WorldBorderMap")
 	place = get_node(NodeMgr.audio_place)
 	world_node = get_node(NodeMgr.world)
 	place_tile(Vector2(0, 0), 0, false)
@@ -99,8 +101,45 @@ func place_tile(location: Vector2, tile: int, make_noise: bool = true):
 		towns.append(this_astar_id)
 	level[this_astar_id] = TileData.LEVELS[tile]
 	full_exploration_set[this_astar_id] = true
+	place_borders(location)
 	emit_signal("tile_added", this_astar_id)
-		
+	
+func place_borders(location: Vector2):
+	var north = Vector2(0, -1)
+	var east = Vector2(1, 0)
+	var south = Vector2(0, 1)
+	var west = Vector2(-1, 0)
+	var loc_north = location + north
+	var loc_north_east = location + north + east
+	var loc_east = location + east
+	var loc_south_east = location + south + east
+	var loc_south = location + south
+	var loc_south_west = location + south + west
+	var loc_west = location + west
+	var loc_north_west = location + north + west
+	
+	var exists = {}
+	exists[north] = world_borders.get_cellv(loc_north) != -1
+	exists[north+east] = world_borders.get_cellv(loc_north_east) != -1
+	exists[east] = world_borders.get_cellv(loc_east) != -1
+	exists[south+east] = world_borders.get_cellv(loc_south_east) != -1
+	exists[south] = world_borders.get_cellv(loc_south) != -1
+	exists[south+west] = world_borders.get_cellv(loc_south_west) != -1
+	exists[west] = world_borders.get_cellv(loc_west) != -1
+	exists[north+west] = world_borders.get_cellv(loc_north_west) != -1
+	
+	var offsets = {}
+	offsets[north] = world_borders.get_cell_autotile_coord(loc_north.x, loc_north.y).x
+	exists[north+east] = world_borders.get_cell_autotile_coord(loc_north_east.x, loc_north_east.y).x
+	exists[east] = world_borders.get_cell_autotile_coord(loc_east.x, loc_east.y).x
+	exists[south+east] = world_borders.get_cell_autotile_coord(loc_south_east.x, loc_south_east.y).x
+	exists[south] = world_borders.get_cell_autotile_coord(loc_south.x, loc_south.y).x
+	exists[south+west] = world_borders.get_cell_autotile_coord(loc_south_west.x, loc_south_west.y).x
+	exists[west] = world_borders.get_cell_autotile_coord(loc_west.x, loc_west.y).x
+	exists[north+west] = world_borders.get_cell_autotile_coord(loc_north_west.x, loc_north_west.y).x
+	
+	
+	
 func get_tile_name(tile: int):
 	if tile == TileData.ARCTIC:
 		return "The Cold"

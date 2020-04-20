@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tileborder_strip12.png-6faca236b4f31f223a93b4e97ac93e1c.stex"
+path="res://.import/worldborders.png-0d3c76b79a9eac99f04817a49198f16f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Unsorted assets/tileborder_strip12.png"
-dest_files=[ "res://.import/tileborder_strip12.png-6faca236b4f31f223a93b4e97ac93e1c.stex" ]
+source_file="res://res/worldborders.png"
+dest_files=[ "res://.import/worldborders.png-0d3c76b79a9eac99f04817a49198f16f.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

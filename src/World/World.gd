@@ -4,7 +4,7 @@ class_name GameWorld
 
 signal game_over
 
-var world_map : WorldMap
+var world_map
 var adventurer_scene
 var adventurers_collection : Node
 var turn_timer : Timer

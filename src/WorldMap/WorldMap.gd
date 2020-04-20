@@ -15,6 +15,7 @@ var building_flag : bool = false
 var lower_bounds : Vector2 = Vector2(0, 0)
 var upper_bounds : Vector2 = Vector2(0, 0)
 var tile_data : Dictionary = {}
+var build_mode : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,7 +25,7 @@ func _ready():
 	neighbour_mask = get_node("NeighbourMask")
 	world_node = get_node(NodeMgr.world)
 	place_tile(Vector2(0, 0), 0)
-	building_scene = load("res://src/UI/BuildingMenu.tscn")
+	build_mode = 0
 	
 func map_to_world(vec : Vector2):
 	return world_select.map_to_world(vec)
@@ -41,16 +42,10 @@ func _process(delta):
 		if world_tile_map.get_cellv(mouse_cursor) == -1:
 			place_cursor()
 			if Input.is_action_just_pressed("ui_select"):
-				if building_flag == false:
-					click_cursor = mouse_cursor
-					emit_signal("tile_clicked", click_cursor)
-					building_flag = true
-					var building_menu = building_scene.instance()
-					building_menu.position = world_tile_map.map_to_world(click_cursor)
-					building_menu.click_cursor = click_cursor
-					add_child(building_menu)
+				place_tile(mouse_cursor, build_mode)
+
 func place_cursor():
-	world_select.set_cellv(mouse_cursor, 0)
+	world_select.set_cell(mouse_cursor.x, mouse_cursor.y, 0, false, false, false, Vector2(build_mode, 0))
 	
 func clear_cursor():
 	world_select.set_cellv(mouse_cursor, -1)

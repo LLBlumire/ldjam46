@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/World/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/World/Camera2D.gd" type="Script" id=2]
@@ -8,6 +8,20 @@
 [ext_resource path="res://res/fonts/FiraSans-Italic.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://res/fonts/FiraSans-Bold.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://src/OverviewUI/ChatLog.gd" type="Script" id=8]
+[ext_resource path="res://res/worldsprites.png" type="Texture" id=9]
+[ext_resource path="res://src/OverviewUI/BuildMenu.gd" type="Script" id=10]
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 9 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 9 )
+region = Rect2( 64, 0, 32, 32 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -75,12 +89,121 @@ margin_right = 1920.0
 margin_bottom = 1076.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="GridContainer" parent="SplitScreen/UI"]
+[node name="BuildMenu" type="GridContainer" parent="SplitScreen/UI"]
 margin_right = 730.0
 margin_bottom = 356.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 2
+custom_constants/vseparation = 10
+columns = 5
+script = ExtResource( 10 )
+
+[node name="MarginContainer" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_right = 142.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TownButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer"]
+margin_right = 142.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 6 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 146.0
+margin_right = 288.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GrasslandButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer2"]
+margin_right = 142.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 8 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer3" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 292.0
+margin_right = 434.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FarmlandButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer3"]
+margin_right = 142.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 9 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer4" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 438.0
+margin_right = 580.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer5" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 584.0
+margin_right = 726.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer6" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_top = 122.0
+margin_right = 142.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer7" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 146.0
+margin_top = 122.0
+margin_right = 288.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer8" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 292.0
+margin_top = 122.0
+margin_right = 434.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer9" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 438.0
+margin_top = 122.0
+margin_right = 580.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer10" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 584.0
+margin_top = 122.0
+margin_right = 726.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer11" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_top = 244.0
+margin_right = 142.0
+margin_bottom = 356.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ColorRect2" type="ColorRect" parent="SplitScreen/UI"]
 margin_top = 360.0
@@ -121,3 +244,7 @@ text = "Hello, God Of Adventures!
 You are charged with keeping the foolish adventurers of the world from dying. Do not be foolish enough to assume they will even try and keep themselves alive. They might, but they are assuredly bad at it. Ensure they have enough space to adventure by clicking on the terrain above and placing it into the world, and make sure there are enough towns too or they won't have places to heal. Be warned however, placing towns will bring about more adventurers are more chaos!"
 scroll_following = true
 script = ExtResource( 8 )
+[connection signal="build_mode_set" from="SplitScreen/UI/BuildMenu" to="SplitScreen/ViewportContainer/Viewport/World" method="_on_BuildMenu_build_mode_set"]
+[connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer/TownButton" to="SplitScreen/UI/BuildMenu" method="_on_TownButton_pressed"]
+[connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer2/GrasslandButton" to="SplitScreen/UI/BuildMenu" method="_on_GrasslandButton_pressed"]
+[connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer3/FarmlandButton" to="SplitScreen/UI/BuildMenu" method="_on_FarmlandButton_pressed"]

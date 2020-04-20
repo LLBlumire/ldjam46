@@ -6,7 +6,6 @@ var adventurer_scene
 var turn_timer
 
 func _ready():
-
 	world_map = get_node("WorldMap")
 	turn_timer = get_node("TurnTimer")
 	
@@ -18,3 +17,6 @@ func spawn_adventurer(var pos: Vector2 ):
 	var adventurer = adventurer_scene.instance()
 	adventurer.Pos = pos
 	call_deferred("add_child",adventurer)
+
+func _on_BuildMenu_build_mode_set(tile: int):
+	world_map.build_mode = tile

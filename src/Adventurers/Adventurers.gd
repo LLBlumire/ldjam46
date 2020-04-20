@@ -168,6 +168,12 @@ func set_adventurer_name():
 	last_name = NameData.NAMES[NameData.Lastname][randi() % NameData.NAMES[NameData.Lastname].size()]
 	
 	adventurer_name = first_name + " " + last_name
+	
+func encounter_monster():
+	get_node(NodeMgr.chat_log).post_message("{name} encountered {mob} and slew it.".format({"name":adventurer_name,"mob":FlavourText.NAMES[FlavourText.Monster][randi() % FlavourText.NAMES[FlavourText.Monster].size()]}))
+
+func find_loot():
+	get_node(NodeMgr.chat_log).post_message("{name} spent some coin and acquired {item}.".format({"name":adventurer_name,"item":FlavourText.NAMES[FlavourText.Loot][randi() % FlavourText.NAMES[FlavourText.Loot].size()]}))
 
 func _process(delta):
 	var lpos = world_node.world_map.map_to_world(last_pos) + Vector2(16,10)
@@ -188,9 +194,13 @@ func have_adventure(var terrain : int):
 		current_satisfaction = clamp(current_satisfaction + (0.2 * quot), 0, 1)
 		unexplored.erase(world_map.pos_ids[pos])
 		action = "adventuring"
+		if(randi() % 4 == 0):
+			encounter_monster()
 	if terrain == 0:
 		current_health = clamp(current_health + 0.5, 0, 1)
 		action = "resting"
+		if(randi() % 4 == 0):
+			find_loot()
 	else:
 		current_health = clamp(current_health - (0.1*quot), 0, 1)
 	adventure_count += 1

@@ -46,6 +46,7 @@ config/icon="res://icon.png"
 
 NodeMgr="*res://src/NodeMgr.gd"
 TileData="*res://src/Data/TileData.gd"
+FlavourText="*res://src/Data/FlavourTextData.gd"
 NameData="*res://src/Data/NameData.gd"
 
 [display]

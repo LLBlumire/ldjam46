@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://res/Adventurers/adventurer_template_strip4.png" type="Texture" id=1]
 [ext_resource path="res://src/Adventurers/Adventurers.gd" type="Script" id=2]
@@ -19,6 +19,9 @@ region = Rect2( 0, 0, 24, 32 )
 resource_local_to_scene = true
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 24, 32 )
+
+[sub_resource type="TileSet" id=4]
+resource_local_to_scene = true
 
 [node name="Adventurers" type="Node2D"]
 position = Vector2( 20, 20 )
@@ -61,10 +64,12 @@ __meta__ = {
 }
 
 [node name="SatisfactionDecay" type="Timer" parent="."]
-autostart = true
 
 [node name="ExplorationTimer" type="Timer" parent="."]
 wait_time = 3.0
-autostart = true
+
+[node name="VisitedMap" type="TileMap" parent="."]
+tile_set = SubResource( 4 )
+format = 1
 [connection signal="timeout" from="SatisfactionDecay" to="." method="_on_SatisfactionDecay_timeout"]
 [connection signal="timeout" from="ExplorationTimer" to="." method="_on_ExplorationTimer_timeout"]

@@ -75,12 +75,12 @@ margin_right = 1920.0
 margin_bottom = 1076.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="SplitScreen/VBoxContainer"]
+[node name="ColorRect" type="GridContainer" parent="SplitScreen/VBoxContainer"]
 margin_right = 730.0
 margin_bottom = 356.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 1, 0, 0, 1 )
+columns = 2
 
 [node name="ColorRect2" type="ColorRect" parent="SplitScreen/VBoxContainer"]
 margin_top = 360.0

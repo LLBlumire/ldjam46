@@ -10,6 +10,8 @@ var world_node : GameWorld
 var world_map : WorldMap
 var satisfaction_timer : Timer
 var exploration_timer : Timer
+var turn_timer : Timer
+var visited_map : TileMap
 
 var skeleton : Sprite
 var costume : Sprite
@@ -37,16 +39,18 @@ func _ready():
 	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
 	satisfaction_timer = get_node("SatisfactionDecay")
 	exploration_timer = get_node("ExplorationTimer")
+	visited_map = get_node("VisitedMap")
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
 	hair = get_node("AdventurerHair")
 	world_node = get_node("..")
 	world_map = world_node.world_map
-	
+	turn_timer = world_node.turn_timer
+	turn_timer.connect("timeout",self,"_on_TurnTimer_timeout")
 	rng.randomize()
-	Health = 20 + gen_stat()
-	CurrentHealth = Health
-	Satisfaction = 20 + gen_stat()
+	Health = 1
+	CurrentHealth = 0.1
+	Satisfaction = 1
 	current_satisfaction = Satisfaction
 	Sex = rng.randi_range(0,1) # 0 = male, 1 = female
 	Strenght = gen_stat()
@@ -74,6 +78,12 @@ func update_stats():
 
 func update_pos():
 	position = world_node.world_map.map_to_world(Pos) + Vector2(16,16)
+	
+
+func move_to(var Position : Vector2):
+	Pos = Position
+	visited_map.set_cellv(Position,1)
+	update_pos()
 	
 
 func death():
@@ -172,37 +182,66 @@ func set_adventurer_name():
 #func _process(delta):
 
 func have_adventure(var terrain : int):
-	visible = false
-	exploration_timer.stop()
-	satisfaction_timer.stop()
-	yield(get_tree().create_timer(5.0), "timeout")
-	visible = true
-	CurrentHealth -= 10
-	current_satisfaction = Satisfaction
-	exploration_timer.start()
-	satisfaction_timer.start()
-	update_stats()
+	visited_map.set_cellv(Pos,1)
+	CurrentHealth -= 0.1
+	current_satisfaction += 0.1
 
-
-
-func _on_SatisfactionDecay_timeout():
-	current_satisfaction -= 1
-	update_stats()
-
-
-func _on_ExplorationTimer_timeout():
-	var random = rng.randi_range(1,4)
-	if random == 1: #move east
-		Pos = Pos + Vector2(1,0)
-	elif random == 2: #move south
-		Pos = Pos + Vector2(0,1)
-	elif random == 3: #move west
-		Pos = Pos + Vector2(-1,0)
-	elif random == 4: #move north
-		Pos = Pos + Vector2(0,-1)
-	update_pos()
-	if world_map.world_tile_map.get_cellv(Pos) == -1:
-		current_satisfaction -= 10
-		update_stats()
-	else :
+func _on_TurnTimer_timeout():
+	if visited_map.get_cellv(Pos) == -1:
 		have_adventure(world_map.world_tile_map.get_cellv(Pos))
+		return
+	elif world_map.world_tile_map.get_cellv(Pos) == 0 && CurrentHealth < Health: #is on town
+		CurrentHealth = min(CurrentHealth + 0.5,Health)
+		return
+	elif CurrentHealth <= 0.2 :
+		var town = find_closest_town()
+		var direction = town - Pos
+		if direction.x != 0:
+			move_to(Pos + Vector2(sign(direction.x),0))
+		elif direction.y != 0:
+			move_to(Pos + Vector2(0, sign(direction.y)))
+		pass #find and move towards closest unexplored tile
+	
+
+func find_closest_town(): 
+	var Queue : Array = []
+	var visited : Array = []
+	var current : Vector2
+	Queue.push_back(Pos)
+	visited.push_back(Pos)
+	while Queue.empty() == false:
+		current = Queue.pop_front()
+		if world_map.world_tile_map.get_cellv(current) == 0: #is town
+			return current
+			
+		var dir = [current + Vector2(1,0),
+		current + Vector2(0,1),
+		current + Vector2(-1,0),
+		current + Vector2(0,-1)]
+		for i in dir:
+			if !visited.has(i):
+				visited.push_back(i)
+				Queue.push_back(i)
+	
+
+#func _on_SatisfactionDecay_timeout():
+#	current_satisfaction -= 1
+#	update_stats()
+#
+#
+#func _on_ExplorationTimer_timeout():
+#	var random = rng.randi_range(1,4)
+#	if random == 1: #move east
+#		Pos = Pos + Vector2(1,0)
+#	elif random == 2: #move south
+#		Pos = Pos + Vector2(0,1)
+#	elif random == 3: #move west
+#		Pos = Pos + Vector2(-1,0)
+#	elif random == 4: #move north
+#		Pos = Pos + Vector2(0,-1)
+#	update_pos()
+#	if world_map.world_tile_map.get_cellv(Pos) == -1:
+#		current_satisfaction -= 10
+#		update_stats()
+#	else :
+#		have_adventure(world_map.world_tile_map.get_cellv(Pos))

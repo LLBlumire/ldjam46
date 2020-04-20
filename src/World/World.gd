@@ -3,9 +3,11 @@ class_name GameWorld
 
 var world_map : WorldMap
 var adventurer_scene
+var turn_timer
 
 func _ready():
 	world_map = get_node("WorldMap")
+	turn_timer = get_node("TurnTimer")
 	print("HEllo, World")
 	print(world_map.world_tile_map.map_to_world(Vector2(3, -1)))
 	

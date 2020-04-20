@@ -35,7 +35,7 @@ var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Healthbar =get_node("VBoxContainer/HealthBar")
+	Healthbar = get_node("VBoxContainer/HealthBar")
 	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
 	satisfaction_timer = get_node("SatisfactionDecay")
 	exploration_timer = get_node("ExplorationTimer")
@@ -43,7 +43,7 @@ func _ready():
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
 	hair = get_node("AdventurerHair")
-	world_node = get_node("..")
+	world_node = get_node(NodeMgr.world)
 	world_map = world_node.world_map
 	turn_timer = world_node.turn_timer
 	turn_timer.connect("timeout",self,"_on_TurnTimer_timeout")
@@ -52,7 +52,7 @@ func _ready():
 	CurrentHealth = 0.1
 	Satisfaction = 1
 	current_satisfaction = Satisfaction
-	Sex = rng.randi_range(0,1) # 0 = male, 1 = female
+	Sex = bool(rng.randi_range(0,1)) # 0 = male, 1 = female
 	Strenght = gen_stat()
 	Dexterity = gen_stat()
 	Intelligence = gen_stat()
@@ -62,7 +62,6 @@ func _ready():
 	set_sprite()
 	update_stats()
 	update_pos()
-
 
 
 func gen_stat() -> float:
@@ -187,12 +186,12 @@ func have_adventure(var terrain : int):
 	current_satisfaction += 0.1
 
 func _on_TurnTimer_timeout():
+	print("foo")
 	if visited_map.get_cellv(Pos) == -1:
 		have_adventure(world_map.world_tile_map.get_cellv(Pos))
-		return
-	elif world_map.world_tile_map.get_cellv(Pos) == 0 && CurrentHealth < Health: #is on town
-		CurrentHealth = min(CurrentHealth + 0.5,Health)
-		return
+	if world_map.world_tile_map.get_cellv(Pos) == 0 && CurrentHealth < Health: #is on town
+		print(CurrentHealth + 0.5)
+		CurrentHealth = min(CurrentHealth + 0.5, Health)
 	elif CurrentHealth <= 0.2 :
 		var town = find_closest_town()
 		var direction = town - Pos
@@ -200,7 +199,9 @@ func _on_TurnTimer_timeout():
 			move_to(Pos + Vector2(sign(direction.x),0))
 		elif direction.y != 0:
 			move_to(Pos + Vector2(0, sign(direction.y)))
-		pass #find and move towards closest unexplored tile
+	else:
+		# Find and move towards closest unexplored tile
+		pass
 	
 
 func find_closest_town(): 

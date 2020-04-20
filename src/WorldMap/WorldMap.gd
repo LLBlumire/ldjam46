@@ -855,7 +855,7 @@ func _ready():
 	world_tile_map = get_node("WorldTileMap")
 	world_select = get_node("WorldSelect")
 	neighbour_mask = get_node("NeighbourMask")
-	world_node = get_node("..")
+	world_node = get_node(NodeMgr.world)
 	place_tile(Vector2(0, 0), 0)
 	building_scene = load("res://src/UI/BuildingMenu.tscn")
 	
@@ -865,7 +865,7 @@ func map_to_world(vec : Vector2):
 func _process(delta):
 	clear_cursor()
 	# This is a hack for nested viewports, see https://github.com/godotengine/godot/issues/32222
-	var zoom = get_node("../../Camera2D").zoom
+	var zoom = get_node(NodeMgr.camera).zoom
 	var offset_position = get_tree().current_scene.get_global_mouse_position() - get_viewport_transform().origin
 	offset_position *= zoom
 	mouse_cursor = world_select.world_to_map(offset_position)

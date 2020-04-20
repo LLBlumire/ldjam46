@@ -8,6 +8,7 @@ var world_map : WorldMap
 var adventurer_scene
 var adventurers_collection : Node
 var turn_timer : Timer
+var days = 0
 
 func _ready():
 	world_map = get_node("WorldMap")
@@ -42,3 +43,10 @@ func _on_BuildMenu_build_mode_set(tile: int):
 
 func _on_BeginGame_pressed():
 	begin()
+
+
+func _on_TurnTimer_timeout():
+	days += 1
+	var format = {"day": days}
+	var string = "[center][i]Day {day}[/i][/center]".format(format)
+	get_node(NodeMgr.chat_log).post_message(string)

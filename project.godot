@@ -45,6 +45,7 @@ config/icon="res://icon.png"
 [autoload]
 
 NodeMgr="*res://src/NodeMgr.gd"
+TileData="*res://src/Data/TileData.gd"
 
 [display]
 

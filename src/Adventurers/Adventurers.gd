@@ -3,6 +3,7 @@ class_name Adventurer
 
 var health_bar : TextureProgress
 var satisfaction_bar : TextureProgress
+var level_bar : TextureProgress
 var world_node
 var world_map
 var satisfaction_timer : Timer
@@ -16,6 +17,8 @@ enum {Thief, Wizard, Fighter, Halfling, Elf, Gnome}
 var race : int = 0
 
 var level : int = 1
+var adventure_count : int = 0
+var next_level : int = 10
 var adventurer_name : String = ""
 var current_health : float = 0.0
 var current_satisfaction : float = 0.0
@@ -26,13 +29,17 @@ var sex : int = 0
 var hair_val : int = 0
 var mediocre : bool = false
 var pos : Vector2 = Vector2(0,0)
+var last_pos : Vector2 = Vector2(0,0)
+var pos_progress : float = 1.0
 var rng = RandomNumberGenerator.new()
+var ready_to_adventure = true
 
 var unexplored : Dictionary = {}
 
 func _ready():
 	health_bar = get_node("BarsContainer/HP")
 	satisfaction_bar = get_node("BarsContainer/SP")
+	level_bar = get_node("BarsContainer/Level")
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
 	hair = get_node("AdventurerHair")
@@ -53,7 +60,9 @@ func _ready():
 	set_adventurer_name()
 	set_sprite()
 	update_stats()
-	update_pos()
+	var cpos = world_node.world_map.map_to_world(pos) + Vector2(16,10)
+	position = cpos
+	scale = Vector2(0.8, 0.8)
 
 func gen_stat() -> float:
 	return rng.randi_range(1, 6) + \
@@ -61,27 +70,25 @@ func gen_stat() -> float:
 		rng.randi_range(1, 6) as float
 
 func update_stats():
-	if current_health < 0 :
+	health_bar.value = current_health
+	satisfaction_bar.value = current_satisfaction
+	level_bar.value = level
+	if current_health <= 0 :
 		death()
-	if current_satisfaction < 0:
+	if current_satisfaction <= 0:
 		boredom()
 
-func update_pos():
-	position = world_node.world_map.map_to_world(pos) + Vector2(16,10)
-	scale = Vector2(0.8, 0.8)
-
 func move_to(var position : Vector2):
+	pos_progress = 0.0
+	last_pos = pos
 	pos = position
-	update_pos()
-	have_adventure(world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x)
+	ready_to_adventure = true
 
 func death():
-	get_parent().remove_child(self)
-	print("F")
+	world_node.game_over(self, true)
 
 func boredom():
-	get_parent().remove_child(self)
-	print("BOOOOOORING")
+	world_node.game_over(self, false)
 
 func set_sprite():
 	var skel = 0
@@ -161,26 +168,40 @@ func set_adventurer_name():
 		for i in range(rf):
 			first_name = file.get_line()
 	file.close()
-	file.open("res://res/Adventurers/Names/Lastnames.txt",File.READ)
+	file.open("res://res/Adventurers/Names/Lastnames.txt", File.READ)
 	for i in range(rs):
 		last_name = file.get_line()
 	
 	adventurer_name = first_name + " " + last_name
 
 func _process(delta):
-	health_bar.value = current_health
-	satisfaction_bar.value = current_satisfaction
+	var lpos = world_node.world_map.map_to_world(last_pos) + Vector2(16,10)
+	var cpos = world_node.world_map.map_to_world(pos) + Vector2(16,10)
+	position = lerp(lpos, cpos, pos_progress)
+	pos_progress = clamp(pos_progress + (delta), 0, 1)
+	scale = Vector2(0.8, 0.8)
+	if ready_to_adventure && pos_progress == 1:
+		ready_to_adventure = false
+		have_adventure(world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x)
 	
 func have_adventure(var terrain : int):
-	if unexplored.has(world_map.pos_ids[pos]):
-		current_satisfaction = clamp(current_satisfaction + 0.2, 0, 1)
-		unexplored.erase(world_map.pos_ids[pos])
+	var terrain_level = TileData.LEVELS[terrain]
+	var quot : float = float(terrain_level) / float(level)
 	current_satisfaction = clamp(current_satisfaction - 0.1, 0, 1)
+	if unexplored.has(world_map.pos_ids[pos]):
+		current_satisfaction = clamp(current_satisfaction + (0.2 * quot), 0, 1)
+		unexplored.erase(world_map.pos_ids[pos])
 	if terrain == 0:
 		current_health = clamp(current_health + 0.5, 0, 1)
 	else:
-		current_health = clamp(current_health - 0.1, 0, 1)
 
+		current_health = clamp(current_health - (0.1*quot), 0, 1)
+	adventure_count += 1
+	if adventure_count >= next_level && level < 5:
+		next_level *= 2
+		level += 1
+	update_stats()
+	
 func _on_TurnTimer_timeout():
 	if world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x == 0 && current_health < 1: #is on town
 		current_health = min(current_health + 0.5, 1)

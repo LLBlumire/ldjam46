@@ -46,7 +46,7 @@ anchor_bottom = 1.0
 margin_left = -10.0
 margin_top = 16.0
 margin_right = 10.0
-margin_bottom = 18.0
+margin_bottom = 20.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -75,5 +75,14 @@ value = 0.5
 texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 5 )
 tint_progress = Color( 0.184314, 0.341176, 0.94902, 1 )
+
+[node name="Level" type="TextureProgress" parent="BarsContainer"]
+margin_top = 4.0
+margin_right = 20.0
+margin_bottom = 6.0
+max_value = 5.0
+value = 1.0
+texture_progress = ExtResource( 5 )
+tint_progress = Color( 1, 0.866667, 0, 1 )
 [connection signal="timeout" from="SatisfactionDecay" to="." method="_on_SatisfactionDecay_timeout"]
 [connection signal="timeout" from="ExplorationTimer" to="." method="_on_ExplorationTimer_timeout"]

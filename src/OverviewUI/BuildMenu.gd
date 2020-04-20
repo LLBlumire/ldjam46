@@ -33,3 +33,30 @@ func _on_FarmlandButton_pressed():
 
 func _on_MuteButton_pressed():
 	audio_bg_default.stop()
+
+func _on_ForestButton_pressed():
+	set_build_mode(TileData.WOODS)
+
+func _on_CaveButton_pressed():
+	set_build_mode(TileData.CAVES)
+
+func _on_SwampButton_pressed():
+	set_build_mode(TileData.SWAMP)
+
+func _on_MountainButton_pressed():
+	set_build_mode(TileData.MOUNTAIN)
+
+func _on_DesertButton_pressed():
+	set_build_mode(TileData.DESERT)
+
+func _on_JungleButton_pressed():
+	set_build_mode(TileData.JUNGLE)
+
+func _on_AlpineButton_pressed():
+	set_build_mode(TileData.ALPINE)
+
+func _on_ArcticButton_pressed():
+	set_build_mode(TileData.ARCTIC)
+
+func _on_OceanButton_pressed():
+	set_build_mode(TileData.OCEAN)

@@ -6,7 +6,7 @@ const TOWN : int = 0
 const GRASSLAND : int = 1
 const FARMLAND : int = 2
 const WOODS : int = 3
-const HILLS : int = 4
+const CAVES : int = 4
 const SWAMP : int = 5
 const MOUNTAIN : int = 6
 const DESERT : int = 7
@@ -837,7 +837,7 @@ const LEVELS = {
 	GRASSLAND: 1,
 	FARMLAND: 1,
 	WOODS: 2,
-	HILLS: 2,
+	CAVES: 2,
 	SWAMP: 3,
 	MOUNTAIN: 3,
 	DESERT: 4,

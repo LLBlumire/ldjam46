@@ -18,6 +18,7 @@ var astar : AStar2D = AStar2D.new()
 var pos_ids : Dictionary = {}
 var towns : PoolIntArray = PoolIntArray([])
 var level : Dictionary = {}
+var full_exploration_set : Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -89,6 +90,7 @@ func place_tile(location: Vector2, tile: int, make_noise: bool = true):
 		world_node.spawn_adventurer(location)
 		towns.append(this_astar_id)
 	level[this_astar_id] = TileData.LEVELS[tile]
+	full_exploration_set[this_astar_id] = true
 	emit_signal("tile_added", this_astar_id)
 		
 func get_tile_name(tile: int):
@@ -96,8 +98,10 @@ func get_tile_name(tile: int):
 		return "The Cold"
 	if tile == TileData.ALPINE:
 		tile = TileData.MOUNTAIN
-	if tile == TileData.HILLS:
+	if tile == TileData.CAVES:
 		tile = TileData.MOUNTAIN
+	if tile == TileData.OCEAN:
+		return "The Ocean"
 	return TileData.NAMES[tile][randi() % TileData.NAMES.size()]
 
 func get_tile_difficulty(pos: Vector2):

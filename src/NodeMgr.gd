@@ -6,6 +6,8 @@ var camera = "/root/OverviewUI/SplitScreen/ViewportContainer/Viewport/Camera2D"
 var audio_select = "/root/OverviewUI/Audio/Select"
 var audio_place = "/root/OverviewUI/Audio/Place"
 var audio_bg_default = "/root/OverviewUI/Audio/BGDefault"
+var audio_bg_friendly = "/root/OverviewUI/Audio/BGFriendly"
+var audio_bg_hostile = "/root/OverviewUI/Audio/BGHostile"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

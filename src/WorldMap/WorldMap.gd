@@ -82,8 +82,6 @@ func place_tile(location: Vector2, tile: int, make_noise: bool = true):
 		upper_bounds.y = world_loc.y
 	if make_noise:
 		place.play()
-	if tile == TileData.OCEAN:
-		return
 	var this_astar_id = astar.get_available_point_id()
 	astar.add_point(this_astar_id, location)
 	pos_ids[location] = this_astar_id
@@ -130,16 +128,34 @@ func place_borders(location: Vector2):
 	
 	var offsets = {}
 	offsets[north] = world_borders.get_cell_autotile_coord(loc_north.x, loc_north.y).x
-	exists[north+east] = world_borders.get_cell_autotile_coord(loc_north_east.x, loc_north_east.y).x
-	exists[east] = world_borders.get_cell_autotile_coord(loc_east.x, loc_east.y).x
-	exists[south+east] = world_borders.get_cell_autotile_coord(loc_south_east.x, loc_south_east.y).x
-	exists[south] = world_borders.get_cell_autotile_coord(loc_south.x, loc_south.y).x
-	exists[south+west] = world_borders.get_cell_autotile_coord(loc_south_west.x, loc_south_west.y).x
-	exists[west] = world_borders.get_cell_autotile_coord(loc_west.x, loc_west.y).x
-	exists[north+west] = world_borders.get_cell_autotile_coord(loc_north_west.x, loc_north_west.y).x
+	offsets[north+east] = world_borders.get_cell_autotile_coord(loc_north_east.x, loc_north_east.y).x
+	offsets[east] = world_borders.get_cell_autotile_coord(loc_east.x, loc_east.y).x
+	offsets[south+east] = world_borders.get_cell_autotile_coord(loc_south_east.x, loc_south_east.y).x
+	offsets[south] = world_borders.get_cell_autotile_coord(loc_south.x, loc_south.y).x
+	offsets[south+west] = world_borders.get_cell_autotile_coord(loc_south_west.x, loc_south_west.y).x
+	offsets[west] = world_borders.get_cell_autotile_coord(loc_west.x, loc_west.y).x
+	offsets[north+west] = world_borders.get_cell_autotile_coord(loc_north_west.x, loc_north_west.y).x
 	
-	
-	
+	if !exists[north]:
+		set_border(loc_north, 0)
+	if !exists[east]:
+		set_border(loc_east, 1)
+	if !exists[south]:
+		set_border(loc_south, 2)
+	if !exists[west]:
+		set_border(loc_west, 3)
+	if !exists[north+east]:
+		set_border(loc_north_east, 12)
+	if !exists[south+east]:
+		set_border(loc_south_east, 13)
+	if !exists[south+west]:
+		set_border(loc_south_west, 14)
+	if !exists[north+west]:
+		set_border(loc_north_west, 15)	
+
+func set_border(loc, tile):
+	world_borders.set_cell(loc.x, loc.y, 0, false, false, false, Vector2(tile, 0))
+
 func get_tile_name(tile: int):
 	if tile == TileData.ARCTIC:
 		return "The Cold"
@@ -147,9 +163,7 @@ func get_tile_name(tile: int):
 		tile = TileData.MOUNTAIN
 	if tile == TileData.CAVES:
 		tile = TileData.MOUNTAIN
-	if tile == TileData.OCEAN:
-		return "The Ocean"
-	return TileData.NAMES[tile][randi() % TileData.NAMES.size()]
+	return TileData.NAMES[tile][randi() % TileData.NAMES[tile].size()]
 
 func get_tile_difficulty(pos: Vector2):
 	var tile = world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x

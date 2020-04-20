@@ -8,11 +8,15 @@ signal build_mode_set
 
 var audio_select: AudioStreamPlayer2D
 var audio_bg_default : AudioStreamPlayer2D
+var audio_bg_hostile : AudioStreamPlayer2D
+var audio_bg_friendly : AudioStreamPlayer2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio_select = get_node(NodeMgr.audio_select)
 	audio_bg_default = get_node(NodeMgr.audio_bg_default)
+	audio_bg_hostile = get_node(NodeMgr.audio_bg_hostile)
+	audio_bg_friendly = get_node(NodeMgr.audio_bg_friendly)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -55,3 +59,19 @@ func _on_AlpineButton_pressed():
 func _on_ArcticButton_pressed():
 	set_build_mode(TileData.ARCTIC)
 	
+func _on_MuteButton_pressed():
+	audio_bg_default.stop()
+	audio_bg_friendly.stop()
+	audio_bg_hostile.stop()
+
+func _on_FriendlyButton_pressed():
+	_on_MuteButton_pressed()
+	audio_bg_friendly.play()
+
+func _on_DefaultButton_pressed():
+	_on_MuteButton_pressed()
+	audio_bg_default.play()
+
+func _on_HostileButton_pressed():
+	_on_MuteButton_pressed()
+	audio_bg_hostile.play()

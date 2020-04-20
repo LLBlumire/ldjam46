@@ -13,7 +13,6 @@ const DESERT : int = 7
 const JUNGLE : int = 8
 const ALPINE : int = 9
 const ARCTIC : int = 10
-const OCEAN : int = 11
 const NAMES = {
 	TOWN: [
 		"Ravenvault",

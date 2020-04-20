@@ -870,13 +870,11 @@ func _process(delta):
 	offset_position *= zoom
 	mouse_cursor = world_select.world_to_map(offset_position)
 	# END HACK
-	print(mouse_cursor)
 	if neighbour_mask.get_cellv(mouse_cursor) == 0:
 		if world_tile_map.get_cellv(mouse_cursor) == -1:
 			place_cursor()
 			if Input.is_action_just_pressed("ui_select"):
 				if building_flag == false:
-					print(click_cursor)
 					click_cursor = mouse_cursor
 					emit_signal("tile_clicked", click_cursor)
 					building_flag = true
@@ -908,7 +906,7 @@ func place_tile(location: Vector2, tile: int):
 	if world_loc.x > upper_bounds.x:
 		upper_bounds.x = world_loc.x
 	if world_loc.y > upper_bounds.y:
-		lower_bounds.y = world_loc.y
+		upper_bounds.y = world_loc.y
 
 func get_tile_name(tile: int):
 	if tile == ARCTIC:

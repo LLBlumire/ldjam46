@@ -87,9 +87,11 @@ func move_to(var position : Vector2):
 	ready_to_adventure = true
 
 func death():
+	get_node(NodeMgr.chat_log).post_message("[color=red]{name} horribly died in {place}![/color]".format({"name":adventurer_name,"place":world_map.tile_data[pos]}))
 	world_node.game_over()
 
 func boredom():
+	get_node(NodeMgr.chat_log).post_message("[color=red]{ name} got really bored in {place} and quit adventuring![/color]".format({"name":adventurer_name,"place":world_map.tile_data[pos]}))
 	world_node.game_over()
 
 func set_sprite():
@@ -188,13 +190,16 @@ func _process(delta):
 	
 func have_adventure(var terrain : int):
 	var terrain_level = TileData.LEVELS[terrain]
+	var action = "bored"
 	var quot : float = float(terrain_level) / float(level)
 	current_satisfaction = clamp(current_satisfaction - 0.1, 0, 1)
 	if unexplored.has(world_map.pos_ids[pos]):
 		current_satisfaction = clamp(current_satisfaction + (0.2 * quot), 0, 1)
 		unexplored.erase(world_map.pos_ids[pos])
+		action = "adventuring"
 	if terrain == 0:
 		current_health = clamp(current_health + 0.5, 0, 1)
+		action = "resting"
 	else:
 
 		current_health = clamp(current_health - (0.1*quot), 0, 1)
@@ -203,6 +208,7 @@ func have_adventure(var terrain : int):
 		next_level *= 2
 		level += 1
 	update_stats()
+	get_node(NodeMgr.chat_log).post_message("{name} is {action} in {place}.".format({"name":adventurer_name,"place":world_map.tile_data[pos],"action" : action }))
 	
 func _on_TurnTimer_timeout():
 	if world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x == 0 && current_health < 1: #is on town

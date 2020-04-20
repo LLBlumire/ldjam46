@@ -1,0 +1,109 @@
+ITEM NAMES
+an Oblivion
+a Warmonger
+an Espada
+an Ancient Warblade
+an Improved Blade
+an Incarnated Gold Reaver
+a Soul-Forged Bronze Sabre
+Persuasion, Spine of the Forsaken
+Reign, Guardian of Insanity
+Epilogue, Token of the Daywalker
+a Blackfang
+a Phantomstrike
+a Widowkiller
+a Misty Bayonet
+a Sorrow's Doomblade
+a Deserted Ebonsteel Knife
+a Malignant Diamond Deflector
+Nimble, Defiler of Stealth
+Interrogator, Token of Echoes
+Midnight, Gift of Ending Hope
+a Last Rites
+a Lightbringer
+a Honor's Pride
+a Ghost-Forged Bulwark
+a Knightly Armament
+an Infused Silver Shield
+a Desire's Skeletal Kite Shield
+The Barricade, Hero of the Insane
+Shroud, Champion of Blight
+Hope, Bane of Deception
+a Potion of Hunger
+a Vial of the Archer
+a Brew of Domination
+a Tonic of Amnesia
+a Brew of Invisibility
+a Draught of Fire Protection
+a Draught of Shielding
+a Draught of Water Walking
+a Flask of Vision Inducement
+a Potion of Immobilizing
+a Blanched Cloud Jerboa
+a Pan-Fried Lesser Walrus
+a Fried Fruit Panther
+a Breaded Fume Cassowary
+a Fruit Coconut & Ginger Tarte Tatin
+a False Olives & Mustard Mooncake
+a Penghou Steamed Pudding
+a Minotaur Steamed Pudding
+an Aggioguaro Bombe
+Qecceabosu Bonbons
+
+MONSTERS
+an Overlord Ent
+an Ebony Berserker
+a Grey Atranoch
+a Wetland Troll
+a Supreme Gnome
+a Supple Chupacabra
+a Majestic Shapeshifter
+a Horn Beastman
+a Cavern Ent
+a Wandering Gargoyle
+a Rosewood Anomaly
+a Roaming Werewolf
+a Chaos Gnoll
+a Blue Chupacabra
+an Insane Genie
+a Tailed Goblin
+an Arctic Cerberus
+a Glass Tauren
+a Preying Monster
+a Jasper Spirit
+a Toaglel
+a Spadaaks
+a Leopollin
+a Parriccuxu
+a Bloupsacuda
+a Ceolium
+a Gitile
+a Woohopper
+a Loufaameo
+a Blekrauta
+a Girodo
+a Barraby
+a Locutteost
+an Ursaneexu
+a Badgalo
+a Tureoslause
+a Zostos
+a Faupsibia
+a Gemadillo
+a Klecsohawk
+a Gounouksa
+a Reassaur
+a Waloon
+a Mosadger
+a Jaguveosto
+a Locubreatsi
+a Racixapee
+a Rabbaukrea
+a Beapsitar
+a Fleostatee
+a Voutsitile
+a Caupie
+a Vakroos
+a Zouban
+a Monapi
+a Ponitar

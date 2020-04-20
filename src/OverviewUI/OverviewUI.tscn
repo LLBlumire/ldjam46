@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/World/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/World/Camera2D.gd" type="Script" id=2]
@@ -10,45 +10,64 @@
 [ext_resource path="res://src/OverviewUI/ChatLog.gd" type="Script" id=8]
 [ext_resource path="res://res/worldsprites.png" type="Texture" id=9]
 [ext_resource path="res://src/OverviewUI/BuildMenu.gd" type="Script" id=10]
+[ext_resource path="res://res/sounds/select.wav" type="AudioStream" id=11]
+[ext_resource path="res://res/sounds/place.wav" type="AudioStream" id=12]
+[ext_resource path="res://res/sounds/bg_default.ogg" type="AudioStream" id=13]
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 9 )
 region = Rect2( 32, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 9 )
 region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="DynamicFont" id=1]
-size = 24
-use_filter = true
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 24
-use_filter = true
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 24
-use_filter = true
-font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 24
 use_filter = true
-font_data = ExtResource( 7 )
+font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
+size = 24
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 24
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 24
+use_filter = true
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=8]
 size = 24
 use_filter = true
 font_data = ExtResource( 3 )
 
 [node name="OverviewUI" type="Node2D"]
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Select" type="AudioStreamPlayer2D" parent="Audio"]
+position = Vector2( 1190, 0 )
+stream = ExtResource( 11 )
+volume_db = -20.0
+
+[node name="Place" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 12 )
+volume_db = -20.0
+
+[node name="BGDefault" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 13 )
+volume_db = -20.0
+autoplay = true
 
 [node name="SplitScreen" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -89,9 +108,13 @@ margin_right = 1920.0
 margin_bottom = 1076.0
 size_flags_horizontal = 3
 
-[node name="BuildMenu" type="GridContainer" parent="SplitScreen/UI"]
+[node name="CenterContainer" type="CenterContainer" parent="SplitScreen/UI"]
 margin_right = 730.0
-margin_bottom = 356.0
+
+[node name="BuildMenu" type="GridContainer" parent="SplitScreen/UI"]
+margin_top = 4.0
+margin_right = 730.0
+margin_bottom = 538.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
@@ -100,112 +123,181 @@ script = ExtResource( 10 )
 
 [node name="MarginContainer" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_right = 142.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TownButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer"]
 margin_right = 142.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 6 )
+texture_normal = SubResource( 1 )
 expand = true
 stretch_mode = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 146.0
 margin_right = 288.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GrasslandButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer2"]
 margin_right = 142.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 8 )
+texture_normal = SubResource( 2 )
 expand = true
 stretch_mode = 5
 
 [node name="MarginContainer3" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 292.0
 margin_right = 434.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FarmlandButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer3"]
 margin_right = 142.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 9 )
+texture_normal = SubResource( 3 )
 expand = true
 stretch_mode = 5
 
 [node name="MarginContainer4" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 438.0
 margin_right = 580.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer5" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 584.0
 margin_right = 726.0
-margin_bottom = 112.0
+margin_bottom = 171.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer6" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
-margin_top = 122.0
+margin_top = 181.0
 margin_right = 142.0
-margin_bottom = 234.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer7" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 146.0
-margin_top = 122.0
+margin_top = 181.0
 margin_right = 288.0
-margin_bottom = 234.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer8" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 292.0
-margin_top = 122.0
+margin_top = 181.0
 margin_right = 434.0
-margin_bottom = 234.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer9" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 438.0
-margin_top = 122.0
+margin_top = 181.0
 margin_right = 580.0
-margin_bottom = 234.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer10" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
 margin_left = 584.0
-margin_top = 122.0
+margin_top = 181.0
 margin_right = 726.0
-margin_bottom = 234.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer11" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
-margin_top = 244.0
+margin_top = 362.0
 margin_right = 142.0
-margin_bottom = 356.0
+margin_bottom = 533.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="MarginContainer12" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 146.0
+margin_top = 362.0
+margin_right = 288.0
+margin_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MuteButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer12"]
+margin_right = 142.0
+margin_bottom = 171.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer13" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 292.0
+margin_top = 362.0
+margin_right = 434.0
+margin_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FriendlyButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer13"]
+margin_right = 142.0
+margin_bottom = 171.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer14" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 438.0
+margin_top = 362.0
+margin_right = 580.0
+margin_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DefaultButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer14"]
+margin_right = 142.0
+margin_bottom = 171.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer15" type="MarginContainer" parent="SplitScreen/UI/BuildMenu"]
+margin_left = 584.0
+margin_top = 362.0
+margin_right = 726.0
+margin_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HostileButton" type="TextureButton" parent="SplitScreen/UI/BuildMenu/MarginContainer15"]
+margin_right = 142.0
+margin_bottom = 171.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 3 )
+expand = true
+stretch_mode = 5
+
 [node name="ColorRect2" type="ColorRect" parent="SplitScreen/UI"]
+visible = false
 margin_top = 360.0
 margin_right = 730.0
 margin_bottom = 716.0
@@ -214,7 +306,7 @@ size_flags_vertical = 3
 color = Color( 0, 1, 0, 1 )
 
 [node name="ChatLogContainer" type="MarginContainer" parent="SplitScreen/UI"]
-margin_top = 720.0
+margin_top = 542.0
 margin_right = 730.0
 margin_bottom = 1076.0
 size_flags_vertical = 3
@@ -227,24 +319,25 @@ custom_constants/margin_bottom = 10
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 720.0
-margin_bottom = 346.0
-custom_fonts/mono_font = SubResource( 1 )
-custom_fonts/bold_italics_font = SubResource( 2 )
-custom_fonts/italics_font = SubResource( 3 )
-custom_fonts/bold_font = SubResource( 4 )
-custom_fonts/normal_font = SubResource( 5 )
+margin_bottom = 524.0
+custom_fonts/mono_font = SubResource( 4 )
+custom_fonts/bold_italics_font = SubResource( 5 )
+custom_fonts/italics_font = SubResource( 6 )
+custom_fonts/bold_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 8 )
 custom_constants/table_vseparation = 0
 custom_constants/shadow_offset_x = 0
 custom_constants/line_separation = 5
 custom_constants/shadow_as_outline = 0
 bbcode_enabled = true
 bbcode_text = "[center][b][i]Hello, God Of Adventures![/i][/b][/center]
-You are charged with keeping the foolish adventurers of the world from dying. Do not be foolish enough to assume they will even [i]try[/i] and keep themselves alive. They might, but they are assuredly bad at it. Ensure they have enough space to adventure by clicking on the terrain above and placing it into the world, and make sure there are enough towns too or they won't have places to heal. Be warned however, placing towns will bring about more adventurers are more chaos!"
+You are charged with keeping the foolish adventurers of the world from dying. Do not be foolish enough to assume they will even [i]try[/i] and keep themselves alive. They might, but they are assuredly bad at it. Ensure they have enough space to adventure by clicking on the terrain above and placing it into the world, and make sure there are enough towns too or they won't have places to heal. Be warned however, placing towns will bring about more adventurers and more chaos!"
 text = "Hello, God Of Adventures!
-You are charged with keeping the foolish adventurers of the world from dying. Do not be foolish enough to assume they will even try and keep themselves alive. They might, but they are assuredly bad at it. Ensure they have enough space to adventure by clicking on the terrain above and placing it into the world, and make sure there are enough towns too or they won't have places to heal. Be warned however, placing towns will bring about more adventurers are more chaos!"
+You are charged with keeping the foolish adventurers of the world from dying. Do not be foolish enough to assume they will even try and keep themselves alive. They might, but they are assuredly bad at it. Ensure they have enough space to adventure by clicking on the terrain above and placing it into the world, and make sure there are enough towns too or they won't have places to heal. Be warned however, placing towns will bring about more adventurers and more chaos!"
 scroll_following = true
 script = ExtResource( 8 )
 [connection signal="build_mode_set" from="SplitScreen/UI/BuildMenu" to="SplitScreen/ViewportContainer/Viewport/World" method="_on_BuildMenu_build_mode_set"]
 [connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer/TownButton" to="SplitScreen/UI/BuildMenu" method="_on_TownButton_pressed"]
 [connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer2/GrasslandButton" to="SplitScreen/UI/BuildMenu" method="_on_GrasslandButton_pressed"]
 [connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer3/FarmlandButton" to="SplitScreen/UI/BuildMenu" method="_on_FarmlandButton_pressed"]
+[connection signal="pressed" from="SplitScreen/UI/BuildMenu/MarginContainer12/MuteButton" to="SplitScreen/UI/BuildMenu" method="_on_MuteButton_pressed"]

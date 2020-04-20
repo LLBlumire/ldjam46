@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/adventurer.wav-fcbe07b28652079e0356afd3d4d62060.sample"
+
+[deps]
+
+source_file="res://res/sounds/adventurer.wav"
+dest_files=[ "res://.import/adventurer.wav-fcbe07b28652079e0356afd3d4d62060.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

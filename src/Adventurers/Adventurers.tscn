@@ -4,6 +4,7 @@
 [ext_resource path="res://src/Adventurers/Adventurers.gd" type="Script" id=2]
 [ext_resource path="res://res/Adventurers/costumes_strip12.png" type="Texture" id=3]
 [ext_resource path="res://res/Adventurers/hairstyles_strip32.png" type="Texture" id=4]
+[ext_resource path="res://res/bar.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 resource_local_to_scene = true
@@ -20,56 +21,59 @@ resource_local_to_scene = true
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 24, 32 )
 
-[sub_resource type="TileSet" id=4]
-resource_local_to_scene = true
-
 [node name="Adventurers" type="Node2D"]
-position = Vector2( 20, 20 )
+position = Vector2( 20, 18 )
 script = ExtResource( 2 )
 
 [node name="AdventurerSkeleton" type="Sprite" parent="."]
 texture = SubResource( 1 )
 
 [node name="AdventurerCostume" type="Sprite" parent="."]
+position = Vector2( 0.149887, 0 )
 texture = SubResource( 2 )
 
 [node name="AdventurerHair" type="Sprite" parent="."]
 texture = SubResource( 3 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = -19.0
-margin_top = -40.389
-margin_right = 21.0
-margin_bottom = -8.38902
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SatisfactionBar" type="Label" parent="VBoxContainer"]
-margin_right = 40.0
-margin_bottom = 14.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthBar" type="Label" parent="VBoxContainer"]
-margin_top = 18.0
-margin_right = 40.0
-margin_bottom = 32.0
-text = "Test"
-align = 1
-uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SatisfactionDecay" type="Timer" parent="."]
 
 [node name="ExplorationTimer" type="Timer" parent="."]
 wait_time = 3.0
 
-[node name="VisitedMap" type="TileMap" parent="."]
-tile_set = SubResource( 4 )
-format = 1
+[node name="BarsContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -10.0
+margin_top = 16.0
+margin_right = 10.0
+margin_bottom = 18.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="TextureProgress" parent="BarsContainer"]
+margin_right = 20.0
+margin_bottom = 2.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+value = 0.8
+texture_under = ExtResource( 5 )
+texture_progress = ExtResource( 5 )
+tint_progress = Color( 0.847059, 0.105882, 0.105882, 1 )
+
+[node name="SP" type="TextureProgress" parent="BarsContainer"]
+margin_top = 2.0
+margin_right = 20.0
+margin_bottom = 4.0
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+texture_under = ExtResource( 5 )
+texture_progress = ExtResource( 5 )
+tint_progress = Color( 0.184314, 0.341176, 0.94902, 1 )
 [connection signal="timeout" from="SatisfactionDecay" to="." method="_on_SatisfactionDecay_timeout"]
 [connection signal="timeout" from="ExplorationTimer" to="." method="_on_ExplorationTimer_timeout"]

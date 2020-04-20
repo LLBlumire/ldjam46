@@ -832,6 +832,19 @@ const NAMES = {
 		"Kitasumu Gardens"
 	]
 }
+const LEVELS = {
+	TOWN: 0,
+	GRASSLAND: 1,
+	FARMLAND: 1,
+	WOODS: 2,
+	HILLS: 2,
+	SWAMP: 3,
+	MOUNTAIN: 3,
+	DESERT: 4,
+	JUNGLE: 4,
+	ALPINE: 5,
+	ARCTIC: 5
+}
 
 # Declare member variables here. Examples:
 # var a = 2

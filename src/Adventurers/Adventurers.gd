@@ -1,45 +1,38 @@
 extends Node2D
 class_name Adventurer
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var Healthbar : Label
-var satisfaction_bar : Label
-var world_node : GameWorld
-var world_map : WorldMap
+var health_bar : TextureProgress
+var satisfaction_bar : TextureProgress
+var world_node
+var world_map
 var satisfaction_timer : Timer
 var exploration_timer : Timer
 var turn_timer : Timer
 var visited_map : TileMap
-
 var skeleton : Sprite
 var costume : Sprite
 var hair : Sprite
 enum {Thief, Wizard, Fighter, Halfling, Elf, Gnome}
 var race : int = 0
 
-var AdventurerName : String = ""
-var Health : float = 0.0 
-var CurrentHealth : float = 0.0
-var Satisfaction : float = 0.0
+var level : int = 1
+var adventurer_name : String = ""
+var current_health : float = 0.0
 var current_satisfaction : float = 0.0
-var Strenght : float = 0.0
-var Dexterity : float = 0.0
-var Intelligence : float = 0.0
-var Sex : int = 0
-var Hair : int = 0
-var Mediocre : bool = false
-var Pos : Vector2 = Vector2(0,0)
+var strength : float = 0.0
+var dexterity : float = 0.0
+var intelligence : float = 0.0
+var sex : int = 0
+var hair_val : int = 0
+var mediocre : bool = false
+var pos : Vector2 = Vector2(0,0)
 var rng = RandomNumberGenerator.new()
 
-# Called when the node enters the scene tree for the first time.
+var unexplored : Dictionary = {}
+
 func _ready():
-	Healthbar = get_node("VBoxContainer/HealthBar")
-	satisfaction_bar = get_node("VBoxContainer/SatisfactionBar")
-	satisfaction_timer = get_node("SatisfactionDecay")
-	exploration_timer = get_node("ExplorationTimer")
-	visited_map = get_node("VisitedMap")
+	health_bar = get_node("BarsContainer/HP")
+	satisfaction_bar = get_node("BarsContainer/SP")
 	skeleton = get_node("AdventurerSkeleton")
 	costume = get_node("AdventurerCostume")
 	hair = get_node("AdventurerHair")
@@ -47,43 +40,40 @@ func _ready():
 	world_map = world_node.world_map
 	turn_timer = world_node.turn_timer
 	turn_timer.connect("timeout",self,"_on_TurnTimer_timeout")
+	world_map.connect("tile_added",self,"_on_WorldMap_tile_added")
 	rng.randomize()
-	Health = 1
-	CurrentHealth = 0.1
-	Satisfaction = 1
-	current_satisfaction = Satisfaction
-	Sex = bool(rng.randi_range(0,1)) # 0 = male, 1 = female
-	Strenght = gen_stat()
-	Dexterity = gen_stat()
-	Intelligence = gen_stat()
-	Hair = rng.randi_range(0,7)
+	current_health = 1
+	current_satisfaction = 1
+	sex = bool(rng.randi_range(0,1)) # 0 = male, 1 = female
+	strength = gen_stat()
+	dexterity = gen_stat()
+	intelligence = gen_stat()
+	hair_val = rng.randi_range(0,7)
 	set_race()
 	set_adventurer_name()
 	set_sprite()
 	update_stats()
 	update_pos()
 
-
 func gen_stat() -> float:
-	return rng.randi_range(1, 6) + rng.randi_range(1, 6) + rng.randi_range(1, 6) as float
+	return rng.randi_range(1, 6) + \
+		rng.randi_range(1, 6) + \
+		rng.randi_range(1, 6) as float
 
 func update_stats():
-	Healthbar.set_text("HP:{current}/{max}".format({"current": CurrentHealth, "max": Health}))
-	satisfaction_bar.set_text("SP:{current}/{max}".format({"current": current_satisfaction, "max": Satisfaction}))
-	if CurrentHealth < 0 :
+	if current_health < 0 :
 		death()
 	if current_satisfaction < 0:
 		boredom()
 
 func update_pos():
-	position = world_node.world_map.map_to_world(Pos) + Vector2(16,16)
-	
+	position = world_node.world_map.map_to_world(pos) + Vector2(16,10)
+	scale = Vector2(0.8, 0.8)
 
-func move_to(var Position : Vector2):
-	Pos = Position
-	visited_map.set_cellv(Position,1)
+func move_to(var position : Vector2):
+	pos = position
 	update_pos()
-	
+	have_adventure(world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x)
 
 func death():
 	get_parent().remove_child(self)
@@ -100,13 +90,13 @@ func set_sprite():
 	skel = max(0, race - 2)
 	cost = 2 * race
 	skeleton.texture.region = Rect2(skel * 24,0,24,32)
-	costume.texture.region = Rect2((cost + Sex) * 24, 0,24,32)
-	hair.texture.region = Rect2((Hair*4+Sex*2+int(issmall))*24, 0, 24, 32)
+	costume.texture.region = Rect2((cost + sex) * 24, 0,24,32)
+	hair.texture.region = Rect2((hair_val*4+sex*2+int(issmall))*24, 0, 24, 32)
 
 func set_race():
-	var fighter = Strenght >= 13
-	var wizard = Intelligence >= 13
-	var rogue = Dexterity >= 13
+	var fighter = strength >= 13
+	var wizard = intelligence >= 13
+	var rogue = dexterity >= 13
 	var elf = fighter && wizard
 	var halfling = fighter && rogue
 	var gnome = wizard && rogue
@@ -124,7 +114,7 @@ func set_race():
 		race = Thief
 	else:
 		race = rng.randi_range(Thief,Gnome)
-		Mediocre = true
+		mediocre = true
 
 func set_adventurer_name():
 	var file : File = File.new()
@@ -134,9 +124,9 @@ func set_adventurer_name():
 	if race <= Fighter: #Human
 		var rf = rng.randi_range(0,79)
 		
-		if Sex == 0:
+		if sex == 0:
 			file.open("res://res/Adventurers/Names/HumanM.txt",File.READ)
-		elif Sex == 1:
+		elif sex == 1:
 			file.open("res://res/Adventurers/Names/HumanF.txt",File.READ)
 		for i in range(rf):
 			first_name = file.get_line()
@@ -144,9 +134,9 @@ func set_adventurer_name():
 	elif race == Elf :
 		var rf = rng.randi_range(0,49)
 		
-		if Sex == 0:
+		if sex == 0:
 			file.open("res://res/Adventurers/Names/ElfM.txt",File.READ)
-		elif Sex == 1:
+		elif sex == 1:
 			file.open("res://res/Adventurers/Names/ElfF.txt",File.READ)
 		for i in range(rf):
 			first_name = file.get_line()
@@ -154,9 +144,9 @@ func set_adventurer_name():
 	elif race == Gnome :
 		var rf = rng.randi_range(0,49)
 		
-		if Sex == 0:
+		if sex == 0:
 			file.open("res://res/Adventurers/Names/GnomeM.txt",File.READ)
-		elif Sex == 1:
+		elif sex == 1:
 			file.open("res://res/Adventurers/Names/GnomeF.txt",File.READ)
 		for i in range(rf):
 			first_name = file.get_line()
@@ -164,9 +154,9 @@ func set_adventurer_name():
 	elif race == Halfling :
 		var rf = rng.randi_range(0,49)
 		
-		if Sex == 0:
+		if sex == 0:
 			file.open("res://res/Adventurers/Names/HalflingM.txt",File.READ)
-		elif Sex == 1:
+		elif sex == 1:
 			file.open("res://res/Adventurers/Names/HalflingF.txt",File.READ)
 		for i in range(rf):
 			first_name = file.get_line()
@@ -175,74 +165,56 @@ func set_adventurer_name():
 	for i in range(rs):
 		last_name = file.get_line()
 	
-	AdventurerName = first_name + " " + last_name
+	adventurer_name = first_name + " " + last_name
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-
+func _process(delta):
+	health_bar.value = current_health
+	satisfaction_bar.value = current_satisfaction
+	
 func have_adventure(var terrain : int):
-	visited_map.set_cellv(Pos,1)
-	CurrentHealth -= 0.1
-	current_satisfaction += 0.1
+	if unexplored.has(world_map.pos_ids[pos]):
+		current_satisfaction = clamp(current_satisfaction + 0.2, 0, 1)
+		unexplored.erase(world_map.pos_ids[pos])
+	current_satisfaction = clamp(current_satisfaction - 0.1, 0, 1)
+	if terrain == 0:
+		current_health = clamp(current_health + 0.5, 0, 1)
+	else:
+		current_health = clamp(current_health - 0.1, 0, 1)
 
 func _on_TurnTimer_timeout():
-	print("foo")
-	if visited_map.get_cellv(Pos) == -1:
-		have_adventure(world_map.world_tile_map.get_cellv(Pos))
-	if world_map.world_tile_map.get_cellv(Pos) == 0 && CurrentHealth < Health: #is on town
-		print(CurrentHealth + 0.5)
-		CurrentHealth = min(CurrentHealth + 0.5, Health)
-	elif CurrentHealth <= 0.2 :
-		var town = find_closest_town()
-		var direction = town - Pos
-		if direction.x != 0:
-			move_to(Pos + Vector2(sign(direction.x),0))
-		elif direction.y != 0:
-			move_to(Pos + Vector2(0, sign(direction.y)))
+	if world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x == 0 && current_health < 1: #is on town
+		current_health = min(current_health + 0.5, 1)
+	elif current_health <= 0.3:
+		var here_id = world_map.pos_ids[pos]
+		var shortest_path = []
+		var shortest_path_size = 9223372036854775807
+		for town_id in world_map.towns:
+			var path = world_map.astar.get_id_path(here_id, town_id)
+			if path.size() < shortest_path_size:
+				shortest_path = path
+				shortest_path_size = path.size()
+		if shortest_path_size > 1:
+			move_to(world_map.astar.get_point_position(shortest_path[1]))
+		else:
+			move_to(pos)
 	else:
-		# Find and move towards closest unexplored tile
-		pass
-	
+		var here_id = world_map.pos_ids[pos]
+		var shortest_path = []
+		var shortest_path_size = 9223372036854775807
+		for unex_id in unexplored:
+			var wlevel = world_map.level[unex_id]
+			if (level - wlevel) > 1 || (level - wlevel) < -1:
+				continue
+			var path = world_map.astar.get_id_path(here_id, unex_id)
+			if path.size() < shortest_path_size:
+				shortest_path = path
+				shortest_path_size = path.size()
+		if shortest_path_size == 9223372036854775807:
+			move_to(pos)
+		elif shortest_path_size > 1:
+			move_to(world_map.astar.get_point_position(shortest_path[1]))
+		else:
+			move_to(pos)
 
-func find_closest_town(): 
-	var Queue : Array = []
-	var visited : Array = []
-	var current : Vector2
-	Queue.push_back(Pos)
-	visited.push_back(Pos)
-	while Queue.empty() == false:
-		current = Queue.pop_front()
-		if world_map.world_tile_map.get_cellv(current) == 0: #is town
-			return current
-			
-		var dir = [current + Vector2(1,0),
-		current + Vector2(0,1),
-		current + Vector2(-1,0),
-		current + Vector2(0,-1)]
-		for i in dir:
-			if !visited.has(i):
-				visited.push_back(i)
-				Queue.push_back(i)
-	
-
-#func _on_SatisfactionDecay_timeout():
-#	current_satisfaction -= 1
-#	update_stats()
-#
-#
-#func _on_ExplorationTimer_timeout():
-#	var random = rng.randi_range(1,4)
-#	if random == 1: #move east
-#		Pos = Pos + Vector2(1,0)
-#	elif random == 2: #move south
-#		Pos = Pos + Vector2(0,1)
-#	elif random == 3: #move west
-#		Pos = Pos + Vector2(-1,0)
-#	elif random == 4: #move north
-#		Pos = Pos + Vector2(0,-1)
-#	update_pos()
-#	if world_map.world_tile_map.get_cellv(Pos) == -1:
-#		current_satisfaction -= 10
-#		update_stats()
-#	else :
-#		have_adventure(world_map.world_tile_map.get_cellv(Pos))
+func _on_WorldMap_tile_added(astar_id):
+	unexplored[astar_id] = true

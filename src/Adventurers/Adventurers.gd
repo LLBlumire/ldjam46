@@ -142,48 +142,30 @@ func set_adventurer_name():
 	var first_name : String
 	var last_name : String
 	if race <= Fighter: #Human
-		var rf = rng.randi_range(0,79)
-		
 		if sex == 0:
-			file.open("res://res/Adventurers/Names/HumanM.txt",File.READ)
+			first_name = NameData.NAMES[NameData.HumanM][randi() % NameData.NAMES[NameData.HumanM].size()]
 		elif sex == 1:
-			file.open("res://res/Adventurers/Names/HumanF.txt",File.READ)
-		for i in range(rf):
-			first_name = file.get_line()
+			first_name = NameData.NAMES[NameData.HumanF][randi() % NameData.NAMES[NameData.HumanF].size()]
 		
 	elif race == Elf :
-		var rf = rng.randi_range(0,49)
-		
 		if sex == 0:
-			file.open("res://res/Adventurers/Names/ElfM.txt",File.READ)
+			first_name = NameData.NAMES[NameData.ElfM][randi() % NameData.NAMES[NameData.ElfM].size()]
 		elif sex == 1:
-			file.open("res://res/Adventurers/Names/ElfF.txt",File.READ)
-		for i in range(rf):
-			first_name = file.get_line()
+			first_name = NameData.NAMES[NameData.ElfF][randi() % NameData.NAMES[NameData.ElfF].size()]
 	
 	elif race == Gnome :
-		var rf = rng.randi_range(0,49)
-		
 		if sex == 0:
-			file.open("res://res/Adventurers/Names/GnomeM.txt",File.READ)
+			first_name = NameData.NAMES[NameData.GnomeM][randi() % NameData.NAMES[NameData.GnomeM].size()]
 		elif sex == 1:
-			file.open("res://res/Adventurers/Names/GnomeF.txt",File.READ)
-		for i in range(rf):
-			first_name = file.get_line()
+			first_name = NameData.NAMES[NameData.GnomeF][randi() % NameData.NAMES[NameData.GnomeF].size()]
 	
 	elif race == Halfling :
-		var rf = rng.randi_range(0,49)
-		
 		if sex == 0:
-			file.open("res://res/Adventurers/Names/HalflingM.txt",File.READ)
+			first_name = NameData.NAMES[NameData.HalflingM][randi() % NameData.NAMES[NameData.HalflingM].size()]
 		elif sex == 1:
-			file.open("res://res/Adventurers/Names/HalflingF.txt",File.READ)
-		for i in range(rf):
-			first_name = file.get_line()
-	file.close()
-	file.open("res://res/Adventurers/Names/Lastnames.txt", File.READ)
-	for i in range(rs):
-		last_name = file.get_line()
+			first_name = NameData.NAMES[NameData.HalflingF][randi() % NameData.NAMES[NameData.HalflingF].size()]
+			
+	last_name = NameData.NAMES[NameData.Lastname][randi() % NameData.NAMES[NameData.Lastname].size()]
 	
 	adventurer_name = first_name + " " + last_name
 

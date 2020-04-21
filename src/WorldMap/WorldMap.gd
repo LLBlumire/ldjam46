@@ -14,7 +14,7 @@ var lower_bounds : Vector2 = Vector2(0, 0)
 var upper_bounds : Vector2 = Vector2(0, 0)
 var tile_data : Dictionary = {}
 var build_mode : int
-var place : AudioStreamPlayer2D
+var place : AudioStreamPlayer
 var astar : AStar2D = AStar2D.new()
 var pos_ids : Dictionary = {}
 var towns : PoolIntArray = PoolIntArray([])

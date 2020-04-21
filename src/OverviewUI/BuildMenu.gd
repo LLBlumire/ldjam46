@@ -4,10 +4,10 @@ extends GridContainer
 # var a = 2
 # var b = "text"
 
-var audio_select: AudioStreamPlayer2D
-var audio_bg_default : AudioStreamPlayer2D
-var audio_bg_hostile : AudioStreamPlayer2D
-var audio_bg_friendly : AudioStreamPlayer2D
+var audio_select: AudioStreamPlayer
+var audio_bg_default : AudioStreamPlayer
+var audio_bg_hostile : AudioStreamPlayer
+var audio_bg_friendly : AudioStreamPlayer
 var world
 
 # Called when the node enters the scene tree for the first time.

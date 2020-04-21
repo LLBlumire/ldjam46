@@ -1,7 +1,5 @@
 extends GridContainer
 
-signal build_mode_set
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -10,6 +8,7 @@ var audio_select: AudioStreamPlayer2D
 var audio_bg_default : AudioStreamPlayer2D
 var audio_bg_hostile : AudioStreamPlayer2D
 var audio_bg_friendly : AudioStreamPlayer2D
+var world
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,14 +16,15 @@ func _ready():
 	audio_bg_default = get_node(NodeMgr.audio_bg_default)
 	audio_bg_hostile = get_node(NodeMgr.audio_bg_hostile)
 	audio_bg_friendly = get_node(NodeMgr.audio_bg_friendly)
-
+	world = get_node(NodeMgr.world)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
 func set_build_mode(tile: int):
 	audio_select.play()
-	emit_signal("build_mode_set", tile)
+	world._on_BuildMenu_build_mode_set(tile)
 
 func _on_TownButton_pressed():
 	set_build_mode(TileData.TOWN)

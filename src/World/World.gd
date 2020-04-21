@@ -36,7 +36,7 @@ func begin():
 func game_over():
 	turn_timer.stop()
 	world_map.disable_placement()
-	emit_signal("game_over")
+	get_node(NodeMgr.btn_restart)._on_World_game_over()
 
 func _on_BuildMenu_build_mode_set(tile: int):
 	world_map.build_mode = tile

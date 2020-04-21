@@ -115,7 +115,6 @@ func place_borders(location: Vector2):
 	var loc_south_west = location + south + west
 	var loc_west = location + west
 	var loc_north_west = location + north + west
-	
 	var exists = {}
 	exists[north] = world_borders.get_cellv(loc_north) != -1
 	exists[north+east] = world_borders.get_cellv(loc_north_east) != -1
@@ -125,33 +124,52 @@ func place_borders(location: Vector2):
 	exists[south+west] = world_borders.get_cellv(loc_south_west) != -1
 	exists[west] = world_borders.get_cellv(loc_west) != -1
 	exists[north+west] = world_borders.get_cellv(loc_north_west) != -1
-	
 	var offsets = {}
-	offsets[north] = world_borders.get_cell_autotile_coord(loc_north.x, loc_north.y).x
-	offsets[north+east] = world_borders.get_cell_autotile_coord(loc_north_east.x, loc_north_east.y).x
-	offsets[east] = world_borders.get_cell_autotile_coord(loc_east.x, loc_east.y).x
-	offsets[south+east] = world_borders.get_cell_autotile_coord(loc_south_east.x, loc_south_east.y).x
-	offsets[south] = world_borders.get_cell_autotile_coord(loc_south.x, loc_south.y).x
-	offsets[south+west] = world_borders.get_cell_autotile_coord(loc_south_west.x, loc_south_west.y).x
-	offsets[west] = world_borders.get_cell_autotile_coord(loc_west.x, loc_west.y).x
-	offsets[north+west] = world_borders.get_cell_autotile_coord(loc_north_west.x, loc_north_west.y).x
+	offsets[north] = from_ternary(world_borders.get_cell_autotile_coord(loc_north.x, loc_north.y).x)
+	offsets[north+east] = from_ternary(world_borders.get_cell_autotile_coord(loc_north_east.x, loc_north_east.y).x)
+	offsets[east] = from_ternary(world_borders.get_cell_autotile_coord(loc_east.x, loc_east.y).x)
+	offsets[south+east] = from_ternary(world_borders.get_cell_autotile_coord(loc_south_east.x, loc_south_east.y).x)
+	offsets[south] = from_ternary(world_borders.get_cell_autotile_coord(loc_south.x, loc_south.y).x)
+	offsets[south+west] = from_ternary(world_borders.get_cell_autotile_coord(loc_south_west.x, loc_south_west.y).x)
+	offsets[west] = from_ternary(world_borders.get_cell_autotile_coord(loc_west.x, loc_west.y).x)
+	offsets[north+west] = from_ternary(world_borders.get_cell_autotile_coord(loc_north_west.x, loc_north_west.y).x)
+	if !exists[north]: offsets[north] = [0,0,0,0]
+	if !exists[north+east]: offsets[north+east] = [0,0,0,0]
+	if !exists[east]: offsets[east] = [0,0,0,0]
+	if !exists[south+east]: offsets[south+east] = [0,0,0,0]
+	if !exists[south]: offsets[south] = [0,0,0,0]
+	if !exists[south+west]: offsets[south+west] = [0,0,0,0]
+	if !exists[west]: offsets[west] = [0,0,0,0]
+	if !exists[north+west]: offsets[north+west] = [0,0,0,0]
 	
-	if !exists[north]:
-		set_border(loc_north, 0)
-	if !exists[east]:
-		set_border(loc_east, 1)
-	if !exists[south]:
-		set_border(loc_south, 2)
-	if !exists[west]:
-		set_border(loc_west, 3)
-	if !exists[north+east]:
-		set_border(loc_north_east, 12)
-	if !exists[south+east]:
-		set_border(loc_south_east, 13)
-	if !exists[south+west]:
-		set_border(loc_south_west, 14)
-	if !exists[north+west]:
-		set_border(loc_north_west, 15)	
+	offsets[north][3] = 2
+	offsets[north+east][3] = max(1, offsets[north+east][3])
+	offsets[east][2] = 2
+	offsets[south+east][2] = max(1, offsets[south+east][2])
+	offsets[south][1] = 2
+	offsets[south+west][1] = max(1, offsets[south+west][1])
+	offsets[west][0] = 2
+	offsets[north+west][0] = max(1, offsets[north+west][0])
+	
+#	set_border(loc_north, to_ternary(offsets[north]))
+#	set_border(loc_north_east, to_ternary(offsets[north+east]))
+#	set_border(loc_east, to_ternary(offsets[east]))
+#	set_border(loc_south_east, to_ternary(offsets[south+east]))
+#	set_border(loc_south, to_ternary(offsets[south]))
+#	set_border(loc_south_west, to_ternary(offsets[south+west]))
+#	set_border(loc_west, to_ternary(offsets[west]))
+#	set_border(loc_north_west, to_ternary(offsets[north+west]))
+	
+func from_ternary(num: int):
+	num = num + 1
+	var zero = num % 3
+	var one = (num / 3) % 3
+	var two = (num / 9) % 3
+	var three = (num / 27) % 3
+	return [zero, one, two, three]
+
+func to_ternary(num: Array):
+	return num[0] + (num[1]*3) + (num[2]*3*3) + (num[3]*3*3*3) - 1
 
 func set_border(loc, tile):
 	world_borders.set_cell(loc.x, loc.y, 0, false, false, false, Vector2(tile, 0))

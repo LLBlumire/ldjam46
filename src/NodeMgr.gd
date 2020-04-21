@@ -8,6 +8,7 @@ var audio_place = "/root/OverviewUI/Audio/Place"
 var audio_bg_default = "/root/OverviewUI/Audio/BGDefault"
 var audio_bg_friendly = "/root/OverviewUI/Audio/BGFriendly"
 var audio_bg_hostile = "/root/OverviewUI/Audio/BGHostile"
+var btn_restart = "/root/OverviewUI/SplitScreen/ColorRect/UI/MarginContainer/RestartGame"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

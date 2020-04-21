@@ -23,6 +23,7 @@ func _on_RestartGame_pressed():
 	world_p.add_child(new_world)
 	hide()
 	get_node(NodeMgr.camera).world = new_world
+	get_node("../../BuildMenu").world = new_world
 	new_world.begin()
 
 func _on_World_game_over():

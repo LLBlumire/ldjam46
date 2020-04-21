@@ -93,7 +93,8 @@ func place_tile(location: Vector2, tile: int, make_noise: bool = true):
 		astar.connect_points(this_astar_id, pos_ids[location + Vector2(0, 1)])
 	if pos_ids.has(location + Vector2(0, -1)):
 		astar.connect_points(this_astar_id, pos_ids[location + Vector2(0, -1)])
-	get_node(NodeMgr.chat_log).post_message("{place} is now explorable!".format({"place":tile_data[location]}))
+	if make_noise:
+		get_node(NodeMgr.chat_log).post_message("{place} is now explorable!".format({"place":tile_data[location]}))
 	if tile == 0:
 		world_node.spawn_adventurer(location)
 		towns.append(this_astar_id)
@@ -151,14 +152,14 @@ func place_borders(location: Vector2):
 	offsets[west][0] = 2
 	offsets[north+west][0] = max(1, offsets[north+west][0])
 	
-#	set_border(loc_north, to_ternary(offsets[north]))
-#	set_border(loc_north_east, to_ternary(offsets[north+east]))
-#	set_border(loc_east, to_ternary(offsets[east]))
-#	set_border(loc_south_east, to_ternary(offsets[south+east]))
-#	set_border(loc_south, to_ternary(offsets[south]))
-#	set_border(loc_south_west, to_ternary(offsets[south+west]))
-#	set_border(loc_west, to_ternary(offsets[west]))
-#	set_border(loc_north_west, to_ternary(offsets[north+west]))
+	set_border(loc_north, to_ternary(offsets[north]))
+	set_border(loc_north_east, to_ternary(offsets[north+east]))
+	set_border(loc_east, to_ternary(offsets[east]))
+	set_border(loc_south_east, to_ternary(offsets[south+east]))
+	set_border(loc_south, to_ternary(offsets[south]))
+	set_border(loc_south_west, to_ternary(offsets[south+west]))
+	set_border(loc_west, to_ternary(offsets[west]))
+	set_border(loc_north_west, to_ternary(offsets[north+west]))
 	
 func from_ternary(num: int):
 	num = num + 1

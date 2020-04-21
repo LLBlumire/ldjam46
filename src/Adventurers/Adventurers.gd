@@ -35,7 +35,8 @@ var pos : Vector2 = Vector2(0,0)
 var last_pos : Vector2 = Vector2(0,0)
 var pos_progress : float = 1.0
 var rng = RandomNumberGenerator.new()
-var ready_to_adventure = true
+var ready_to_adventure = false
+var has_anounced_self = false
 
 var unexplored : Dictionary = {}
 
@@ -63,7 +64,6 @@ func _ready():
 	set_adventurer_name()
 	set_sprite()
 	update_stats()
-	get_node(NodeMgr.chat_log).post_message("{name} the {class} has pledged themselves to the duty of adventure!".format({"name":adventurer_name,"class": race_string}))
 	var cpos = world_node.world_map.map_to_world(pos) + Vector2(16,10)
 	position = cpos
 	scale = Vector2(0.8, 0.8)
@@ -189,18 +189,20 @@ func have_adventure(var terrain : int):
 	var terrain_level = TileData.LEVELS[terrain]
 	var action = "bored"
 	var quot : float = float(terrain_level) / float(level)
+	var monster_encountered = false
+	var loot_found = false
 	current_satisfaction = clamp(current_satisfaction - 0.1, 0, 1)
 	if unexplored.has(world_map.pos_ids[pos]):
 		current_satisfaction = clamp(current_satisfaction + (0.2 * quot), 0, 1)
 		unexplored.erase(world_map.pos_ids[pos])
 		action = "adventuring"
 		if(randi() % 4 == 0):
-			encounter_monster()
+			monster_encountered = true
 	if terrain == 0:
 		current_health = clamp(current_health + 0.5, 0, 1)
 		action = "resting"
 		if(randi() % 4 == 0):
-			find_loot()
+			loot_found = true
 	else:
 		current_health = clamp(current_health - (0.1*quot), 0, 1)
 	adventure_count += 1
@@ -209,8 +211,15 @@ func have_adventure(var terrain : int):
 		level += 1
 	update_stats()
 	get_node(NodeMgr.chat_log).post_message("{name} is {action} in {place}.".format({"name":adventurer_name,"place":world_map.tile_data[pos],"action" : action }))
+	if monster_encountered:
+		encounter_monster()
+	if loot_found:
+		find_loot()
 	
 func _on_TurnTimer_timeout():
+	if !has_anounced_self:
+		get_node(NodeMgr.chat_log).post_message("{name} the {class} has pledged themselves to the duty of adventure!".format({"name":adventurer_name,"class": race_string}))
+		has_anounced_self = true
 	if world_map.world_tile_map.get_cell_autotile_coord(pos.x, pos.y).x == 0 && current_health < 1: #is on town
 		current_health = min(current_health + 0.5, 1)
 	elif current_health <= 0.3:

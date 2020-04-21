@@ -63,15 +63,25 @@ func _on_MuteButton_pressed():
 	audio_bg_default.stop()
 	audio_bg_friendly.stop()
 	audio_bg_hostile.stop()
+	get_node(NodeMgr.chat_log).post_message("[center][i]Music Disabled[/i][/center]")
 
 func _on_FriendlyButton_pressed():
-	_on_MuteButton_pressed()
+	audio_bg_default.stop()
+	audio_bg_friendly.stop()
+	audio_bg_hostile.stop()
 	audio_bg_friendly.play()
+	get_node(NodeMgr.chat_log).post_message("[center][i]Now Playing: Floating Castles[/i][/center]")
 
 func _on_DefaultButton_pressed():
-	_on_MuteButton_pressed()
+	audio_bg_default.stop()
+	audio_bg_friendly.stop()
+	audio_bg_hostile.stop()
 	audio_bg_default.play()
+	get_node(NodeMgr.chat_log).post_message("[center][i]Now Playing: Anthem of Shrea[/i][/center]")
 
 func _on_HostileButton_pressed():
-	_on_MuteButton_pressed()
+	audio_bg_default.stop()
+	audio_bg_friendly.stop()
+	audio_bg_hostile.stop()
 	audio_bg_hostile.play()
+	get_node(NodeMgr.chat_log).post_message("[center][i]Now Playing: Murky Cavern[/i][/center]")

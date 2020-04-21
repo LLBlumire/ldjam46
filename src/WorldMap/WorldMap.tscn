@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/WorldMap/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://res/worldborders.png" type="Texture" id=2]
 [ext_resource path="res://res/worldsprites.png" type="Texture" id=3]
+[ext_resource path="res://res/worldsprites_select.png" type="Texture" id=4]
 
 [sub_resource type="TileSet" id=1]
 0/name = "worldborders.png 0"
@@ -33,6 +34,29 @@
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 352, 32 )
+0/tile_mode = 2
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 32, 32 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+
+[sub_resource type="TileSet" id=4]
+0/name = "worldsprites_select.png 0"
+0/texture = ExtResource( 4 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 384, 32 )
 0/tile_mode = 2
 0/autotile/icon_coordinate = Vector2( 0, 0 )
 0/autotile/tile_size = Vector2( 32, 32 )
@@ -97,7 +121,7 @@ __meta__ = {
 
 [node name="WorldSelect" type="TileMap" parent="."]
 use_parent_material = true
-tile_set = SubResource( 3 )
+tile_set = SubResource( 4 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_tile_origin = 1
